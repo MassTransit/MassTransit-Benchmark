@@ -33,16 +33,17 @@
 
         public void Run(CancellationToken cancellationToken = default(CancellationToken))
         {
+            _capture = new MessageMetricCapture(_settings.MessageCount);
+
             IBusControl busControl = _transport.GetBusControl(ConfigureReceiveEndpoint);
             try
             {
                 Console.WriteLine("Running Message Latency Benchmark");
 
-                _capture = new MessageMetricCapture(_settings.MessageCount);
-
                 TaskUtil.Await(() => RunBenchmark(busControl), cancellationToken);
 
                 Console.WriteLine("Message Count: {0}", _settings.MessageCount);
+                Console.WriteLine("Clients: {0}", _settings.Clients);
                 Console.WriteLine("Durable: {0}", _settings.Durable);
                 Console.WriteLine("Prefetch Count: {0}", _settings.PrefetchCount);
                 Console.WriteLine("Concurrency Limit: {0}", _settings.ConcurrencyLimit);

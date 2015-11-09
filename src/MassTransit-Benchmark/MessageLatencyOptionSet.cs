@@ -1,6 +1,5 @@
 namespace MassTransitBenchmark
 {
-    using System;
     using NDesk.Options;
 
     public class MessageLatencyOptionSet :

@@ -1,6 +1,5 @@
 namespace MassTransitBenchmark
 {
-    using System;
     using System.Threading.Tasks;
     using MassTransit;
 

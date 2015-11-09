@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Net;
     using NDesk.Options;
 
     class Program
@@ -18,45 +19,57 @@
             try
             {
                 _remaining = optionSet.Parse(args);
+
+                if (optionSet.Help)
+                {
+                    ShowHelp(optionSet);
+                    return;
+                }
+
+                optionSet.ShowOptions();
+
+                RunLatencyBenchmark(optionSet);
             }
             catch (OptionException ex)
             {
                 Console.Write("mtbench: ");
                 Console.WriteLine(ex.Message);
                 Console.WriteLine("Use 'mtbench --help' for detailed usage information.");
-                return;
             }
-
-            if (optionSet.Help)
-            {
-                ShowHelp(optionSet);
-                return;
-            }
-
-            optionSet.ShowOptions();
-
-
-            RunLatencyBenchmark(optionSet);
         }
 
         static void RunLatencyBenchmark(ProgramOptionSet optionSet)
         {
             var messageLatencyOptionSet = new MessageLatencyOptionSet();
-            try
-            {
-                messageLatencyOptionSet.Parse(_remaining);
-            }
-            catch (OptionException ex)
-            {
-                Console.Write("mtbench: ");
-                Console.WriteLine(ex.Message);
-                ShowHelp(messageLatencyOptionSet);
-                return;
-            }
+
+            messageLatencyOptionSet.Parse(_remaining);
 
             IMessageLatencySettings settings = messageLatencyOptionSet;
 
-            IMessageLatencyTransport transport = new RabbitMqMessageLatencyTransport(optionSet, settings);
+            IMessageLatencyTransport transport;
+            if (optionSet.Transport == ProgramOptionSet.TransportOptions.AzureServiceBus)
+            {
+                var serviceBusOptionSet = new ServiceBusOptionSet();
+
+                serviceBusOptionSet.Parse(_remaining);
+
+                serviceBusOptionSet.ShowOptions();
+
+                ServicePointManager.Expect100Continue = false;
+                ServicePointManager.UseNagleAlgorithm = false;
+
+                transport = new ServiceBusMessageLatencyTransport(serviceBusOptionSet, settings);
+            }
+            else
+            {
+                var rabbitMqOptionSet = new RabbitMqOptionSet();
+                rabbitMqOptionSet.Parse(_remaining);
+
+                rabbitMqOptionSet.ShowOptions();
+
+                transport = new RabbitMqMessageLatencyTransport(rabbitMqOptionSet, settings);
+            }
+
             var benchmark = new MessageLatencyBenchmark(transport, settings);
 
             benchmark.Run();
@@ -70,6 +83,18 @@
             Console.WriteLine();
             Console.WriteLine("Options:");
             p.WriteOptionDescriptions(Console.Out);
+
+            Console.WriteLine();
+            Console.WriteLine("RabbitMQ Options:");
+            new RabbitMqOptionSet().WriteOptionDescriptions(Console.Out);
+
+            Console.WriteLine();
+            Console.WriteLine("Azure Service Bus Options:");
+            new ServiceBusOptionSet().WriteOptionDescriptions(Console.Out);
+
+            Console.WriteLine();
+            Console.WriteLine("Benchmark Options:");
+            new MessageLatencyOptionSet().WriteOptionDescriptions(Console.Out);
         }
     }
 }

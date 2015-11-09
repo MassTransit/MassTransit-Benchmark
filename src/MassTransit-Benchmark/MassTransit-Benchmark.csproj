@@ -98,6 +98,9 @@
     <Compile Include="ProgramOptionSet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RabbitMqMessageLatencyTransport.cs" />
+    <Compile Include="RabbitMqOptionSet.cs" />
+    <Compile Include="ServiceBusMessageLatencyTransport.cs" />
+    <Compile Include="ServiceBusOptionSet.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
