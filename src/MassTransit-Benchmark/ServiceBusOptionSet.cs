@@ -4,16 +4,18 @@ namespace MassTransitBenchmark
     using System.Net;
     using MassTransit.AzureServiceBusTransport;
     using Microsoft.ServiceBus;
+    using Microsoft.ServiceBus.Messaging;
+    using Microsoft.ServiceBus.Messaging.Amqp;
     using NDesk.Options;
 
-    class ServiceBusOptionSet :
+    internal class ServiceBusOptionSet :
         OptionSet,
         ServiceBusHostSettings
     {
-        readonly TokenScope _tokenScope;
-        readonly TimeSpan _tokenTimeToLive;
-        string _accessKey;
-        string _keyName;
+        private readonly TokenScope _tokenScope;
+        private readonly TimeSpan _tokenTimeToLive;
+        private string _accessKey;
+        private string _keyName;
 
         public ServiceBusOptionSet()
         {
@@ -27,20 +29,43 @@ namespace MassTransitBenchmark
             _tokenTimeToLive = TimeSpan.FromDays(1);
             _tokenScope = TokenScope.Namespace;
 
+            OperationTimeout = TimeSpan.FromSeconds(60.0);
+            RetryMinBackoff = TimeSpan.FromMilliseconds(100.0);
+            RetryMaxBackoff = TimeSpan.FromSeconds(20.0);
+            RetryLimit = 10;
+            TransportType = Microsoft.ServiceBus.Messaging.TransportType.Amqp;
+            AmqpTransportSettings = new AmqpTransportSettings
+            {
+                BatchFlushInterval = TimeSpan.FromMilliseconds(50.0)
+            };
+            NetMessagingTransportSettings = new NetMessagingTransportSettings
+            {
+                BatchFlushInterval = TimeSpan.FromMilliseconds(50.0)
+            };
+
             DefaultConnections = ServicePointManager.DefaultConnectionLimit;
-
-
-            OperationTimeout = TimeSpan.FromSeconds(10);
         }
 
         public int DefaultConnections { get; set; }
 
-        public Uri ServiceUri { get; set; }
+        public Uri ServiceUri { get; private set; }
 
         public TokenProvider TokenProvider =>
             TokenProvider.CreateSharedAccessSignatureTokenProvider(_keyName, _accessKey, _tokenTimeToLive, _tokenScope);
 
         public TimeSpan OperationTimeout { get; }
+
+        public TimeSpan RetryMinBackoff { get; }
+
+        public TimeSpan RetryMaxBackoff { get; }
+
+        public int RetryLimit { get; }
+
+        public Microsoft.ServiceBus.Messaging.TransportType TransportType { get; }
+
+        public AmqpTransportSettings AmqpTransportSettings { get; }
+
+        public NetMessagingTransportSettings NetMessagingTransportSettings { get; }
 
         public void ShowOptions()
         {

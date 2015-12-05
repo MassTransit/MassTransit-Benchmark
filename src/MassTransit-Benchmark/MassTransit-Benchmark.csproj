@@ -32,28 +32,28 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    <Reference Include="log4net, Version=1.2.14.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.4\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MassTransit, Version=3.0.0.0, Culture=neutral, PublicKeyToken=b8e0e9f2f1e657fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\MassTransit.3.0.15\lib\net45\MassTransit.dll</HintPath>
+      <HintPath>..\packages\MassTransit.3.0.17\lib\net45\MassTransit.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MassTransit.AzureServiceBusTransport, Version=3.0.0.0, Culture=neutral, PublicKeyToken=b8e0e9f2f1e657fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\MassTransit.AzureServiceBus.3.0.15\lib\net45\MassTransit.AzureServiceBusTransport.dll</HintPath>
+      <HintPath>..\packages\MassTransit.AzureServiceBus.3.0.17\lib\net45\MassTransit.AzureServiceBusTransport.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MassTransit.Log4NetIntegration, Version=3.0.0.0, Culture=neutral, PublicKeyToken=b8e0e9f2f1e657fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\MassTransit.Log4Net.3.0.15\lib\net45\MassTransit.Log4NetIntegration.dll</HintPath>
+      <HintPath>..\packages\MassTransit.Log4Net.3.0.17\lib\net45\MassTransit.Log4NetIntegration.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MassTransit.RabbitMqTransport, Version=3.0.0.0, Culture=neutral, PublicKeyToken=b8e0e9f2f1e657fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\MassTransit.RabbitMQ.3.0.15\lib\net45\MassTransit.RabbitMqTransport.dll</HintPath>
+      <HintPath>..\packages\MassTransit.RabbitMQ.3.0.17\lib\net45\MassTransit.RabbitMqTransport.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ServiceBus, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAzure.ServiceBus.3.0.7\lib\net45-full\Microsoft.ServiceBus.dll</HintPath>
+      <HintPath>..\packages\WindowsAzure.ServiceBus.3.0.9\lib\net45-full\Microsoft.ServiceBus.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
