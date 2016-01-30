@@ -1,33 +1,35 @@
-namespace MassTransitBenchmark
+namespace MassTransitBenchmark.RequestResponse
 {
     using System;
     using System.Threading.Tasks;
     using MassTransit;
     using MassTransit.RabbitMqTransport;
 
-    public class RabbitMqMessageLatencyTransport :
-        IMessageLatencyTransport
+
+    public class RabbitMqRequestResponseTransport :
+        IRequestResponseTransport
     {
         readonly RabbitMqHostSettings _hostSettings;
-        readonly IMessageLatencySettings _settings;
-        Uri _targetAddress;
+        readonly IRequestResponseSettings _settings;
         Task<ISendEndpoint> _targetEndpoint;
+        Uri _targetEndpointAddress;
 
-        public RabbitMqMessageLatencyTransport(RabbitMqHostSettings hostSettings, IMessageLatencySettings settings)
+        public RabbitMqRequestResponseTransport(RabbitMqHostSettings hostSettings, IRequestResponseSettings settings)
         {
             _hostSettings = hostSettings;
             _settings = settings;
         }
 
         public Task<ISendEndpoint> TargetEndpoint => _targetEndpoint;
+        public Uri TargetEndpointAddress => _targetEndpointAddress;
 
         public IBusControl GetBusControl(Action<IReceiveEndpointConfigurator> callback)
         {
-            IBusControl busControl = Bus.Factory.CreateUsingRabbitMq(x =>
+            var busControl = Bus.Factory.CreateUsingRabbitMq(x =>
             {
-                IRabbitMqHost host = x.Host(_hostSettings);
+                var host = x.Host(_hostSettings);
 
-                x.ReceiveEndpoint(host, "latency_consumer" + (_settings.Durable ? "" : "_express"), e =>
+                x.ReceiveEndpoint(host, "rpc_consumer" + (_settings.Durable ? "" : "_express"), e =>
                 {
                     e.PurgeOnStartup = true;
                     e.Durable = _settings.Durable;
@@ -35,13 +37,13 @@ namespace MassTransitBenchmark
 
                     callback(e);
 
-                    _targetAddress = e.InputAddress;
+                    _targetEndpointAddress = e.InputAddress;
                 });
             });
 
             busControl.Start();
 
-            _targetEndpoint = busControl.GetSendEndpoint(_targetAddress);
+            _targetEndpoint = busControl.GetSendEndpoint(_targetEndpointAddress);
 
             return busControl;
         }

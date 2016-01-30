@@ -1,7 +1,8 @@
-namespace MassTransitBenchmark
+namespace MassTransitBenchmark.Latency
 {
     using System.Threading.Tasks;
     using MassTransit;
+
 
     public class MessageLatencyConsumer :
         IConsumer<LatencyTestMessage>

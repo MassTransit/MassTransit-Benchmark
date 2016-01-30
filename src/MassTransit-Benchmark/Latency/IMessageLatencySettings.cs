@@ -1,7 +1,5 @@
-﻿namespace MassTransitBenchmark
+﻿namespace MassTransitBenchmark.Latency
 {
-    using System;
-
     public interface IMessageLatencySettings
     {
         long MessageCount { get; }
@@ -13,5 +11,7 @@
         bool Durable { get; }
 
         int Clients { get; }
+
+        int PayloadSize { get; }
     }
 }

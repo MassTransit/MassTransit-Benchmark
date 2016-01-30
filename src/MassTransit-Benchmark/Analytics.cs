@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
+
     public static class Analytics
     {
         public static double? Median<TColl, TValue>(
@@ -32,11 +33,11 @@
 
             source = source.OrderBy(n => n);
 
-            int midpoint = count/2;
-            if (count%2 == 0)
+            int midpoint = count / 2;
+            if (count % 2 == 0)
             {
                 return (Convert.ToDouble(source.ElementAt(midpoint - 1)) + Convert.ToDouble(source.ElementAt(midpoint)))
-                       /2.0;
+                    / 2.0;
             }
             return Convert.ToDouble(source.ElementAt(midpoint));
         }
@@ -51,11 +52,11 @@
 
             source = source.OrderBy(n => n);
 
-            int point = count*percentile/100;
-            if (count%2 == 0)
+            int point = count * percentile / 100;
+            if (count % 2 == 0)
             {
                 return (Convert.ToDouble(source.ElementAt(point - 1)) + Convert.ToDouble(source.ElementAt(point)))
-                       /2.0;
+                    / 2.0;
             }
             return Convert.ToDouble(source.ElementAt(point));
         }

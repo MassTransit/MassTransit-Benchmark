@@ -5,6 +5,7 @@ namespace MassTransitBenchmark
     using MassTransit.RabbitMqTransport;
     using NDesk.Options;
 
+
     class RabbitMqOptionSet :
         OptionSet,
         RabbitMqHostSettings

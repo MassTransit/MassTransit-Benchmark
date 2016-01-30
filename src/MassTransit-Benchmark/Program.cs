@@ -3,7 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.Net;
+    using Latency;
     using NDesk.Options;
+    using RequestResponse;
+
 
     class Program
     {
@@ -28,7 +31,16 @@
 
                 optionSet.ShowOptions();
 
-                RunLatencyBenchmark(optionSet);
+                if (optionSet.Benchmark.HasFlag(ProgramOptionSet.BenchmarkOptions.Latency))
+                {
+                    RunLatencyBenchmark(optionSet);
+                }
+
+                if (optionSet.Benchmark.HasFlag(ProgramOptionSet.BenchmarkOptions.RPC))
+                {
+                    RunRequestResponseBenchmark(optionSet);
+                }
+
             }
             catch (OptionException ex)
             {
@@ -71,6 +83,43 @@
             }
 
             var benchmark = new MessageLatencyBenchmark(transport, settings);
+
+            benchmark.Run();
+        }
+
+        static void RunRequestResponseBenchmark(ProgramOptionSet optionSet)
+        {
+            var requestResponseOptionSet = new RequestResponseOptionSet();
+
+            requestResponseOptionSet.Parse(_remaining);
+
+            IRequestResponseSettings settings = requestResponseOptionSet;
+
+            IRequestResponseTransport transport;
+            if (optionSet.Transport == ProgramOptionSet.TransportOptions.AzureServiceBus)
+            {
+                var serviceBusOptionSet = new ServiceBusOptionSet();
+
+                serviceBusOptionSet.Parse(_remaining);
+
+                serviceBusOptionSet.ShowOptions();
+
+                ServicePointManager.Expect100Continue = false;
+                ServicePointManager.UseNagleAlgorithm = false;
+
+                transport = new ServiceBusRequestResponseTransport(serviceBusOptionSet, settings);
+            }
+            else
+            {
+                var rabbitMqOptionSet = new RabbitMqOptionSet();
+                rabbitMqOptionSet.Parse(_remaining);
+
+                rabbitMqOptionSet.ShowOptions();
+
+                transport = new RabbitMqRequestResponseTransport(rabbitMqOptionSet, settings);
+            }
+
+            var benchmark = new RequestResponseBenchmark(transport, settings);
 
             benchmark.Run();
         }

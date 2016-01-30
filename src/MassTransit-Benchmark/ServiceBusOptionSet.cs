@@ -8,14 +8,15 @@ namespace MassTransitBenchmark
     using Microsoft.ServiceBus.Messaging.Amqp;
     using NDesk.Options;
 
-    internal class ServiceBusOptionSet :
+
+    class ServiceBusOptionSet :
         OptionSet,
         ServiceBusHostSettings
     {
-        private readonly TokenScope _tokenScope;
-        private readonly TimeSpan _tokenTimeToLive;
-        private string _accessKey;
-        private string _keyName;
+        readonly TokenScope _tokenScope;
+        readonly TimeSpan _tokenTimeToLive;
+        string _accessKey;
+        string _keyName;
 
         public ServiceBusOptionSet()
         {

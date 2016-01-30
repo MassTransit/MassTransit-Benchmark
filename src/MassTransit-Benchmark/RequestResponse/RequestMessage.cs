@@ -1,14 +1,15 @@
-namespace MassTransitBenchmark
+﻿namespace MassTransitBenchmark.RequestResponse
 {
     using System;
 
-    public class LatencyTestMessage
+
+    public class RequestMessage
     {
-        public LatencyTestMessage()
+        public RequestMessage()
         {
         }
 
-        public LatencyTestMessage(Guid correlationId)
+        public RequestMessage(Guid correlationId)
         {
             CorrelationId = correlationId;
         }

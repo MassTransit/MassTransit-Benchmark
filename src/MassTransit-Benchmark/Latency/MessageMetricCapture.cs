@@ -1,4 +1,4 @@
-namespace MassTransitBenchmark
+namespace MassTransitBenchmark.Latency
 {
     using System;
     using System.Collections.Concurrent;
@@ -7,6 +7,7 @@ namespace MassTransitBenchmark
     using System.Threading;
     using System.Threading.Tasks;
     using MassTransit.Util;
+
 
     public class MessageMetricCapture :
         IReportConsumerMetric
@@ -70,6 +71,7 @@ namespace MassTransitBenchmark
                 .ToArray();
         }
 
+
         struct SentMessage
         {
             public readonly Guid MessageId;
@@ -83,6 +85,7 @@ namespace MassTransitBenchmark
                 AckTimestamp = ackTimestamp;
             }
         }
+
 
         struct ConsumedMessage
         {
