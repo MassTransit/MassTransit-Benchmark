@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Net;
     using Latency;
     using NDesk.Options;
@@ -39,6 +40,12 @@
                 if (optionSet.Benchmark.HasFlag(ProgramOptionSet.BenchmarkOptions.RPC))
                 {
                     RunRequestResponseBenchmark(optionSet);
+                }
+
+                if (Debugger.IsAttached)
+                {
+                    Console.Write("Press any key to continue...");
+                    Console.ReadKey();
                 }
 
             }

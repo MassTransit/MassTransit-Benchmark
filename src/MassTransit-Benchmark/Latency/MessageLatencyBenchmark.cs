@@ -20,7 +20,7 @@
         MessageMetricCapture _capture;
         TimeSpan _consumeDuration;
         TimeSpan _sendDuration;
-        string _payload;
+        readonly string _payload;
 
         public MessageLatencyBenchmark(IMessageLatencyTransport transport, IMessageLatencySettings settings)
         {
@@ -49,6 +49,7 @@
                 Console.WriteLine("Message Count: {0}", _settings.MessageCount);
                 Console.WriteLine("Clients: {0}", _settings.Clients);
                 Console.WriteLine("Durable: {0}", _settings.Durable);
+                Console.WriteLine("Payload Length: {0}", _payload?.Length ?? 0);
                 Console.WriteLine("Prefetch Count: {0}", _settings.PrefetchCount);
                 Console.WriteLine("Concurrency Limit: {0}", _settings.ConcurrencyLimit);
 
