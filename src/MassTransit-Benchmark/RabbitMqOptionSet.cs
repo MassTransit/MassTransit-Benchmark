@@ -62,15 +62,8 @@ namespace MassTransitBenchmark
         public string ClientCertificatePath { get; }
         public string ClientCertificatePassphrase { get; }
 
-        public X509Certificate ClientCertificate
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public bool UseClientCertificateAsAuthenticationIdentity
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public X509Certificate ClientCertificate => null;
+        public bool UseClientCertificateAsAuthenticationIdentity => false;
 
         public void ShowOptions()
         {
