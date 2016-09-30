@@ -3,8 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.IO;
     using System.Net;
+    using System.Text;
+    using log4net.Config;
     using Latency;
+    using MassTransit.Log4NetIntegration.Logging;
     using NDesk.Options;
     using RequestResponse;
 
@@ -30,6 +34,11 @@
                     return;
                 }
 
+                if (optionSet.Verbose)
+                {
+                    ConfigureLogger();
+                }
+
                 optionSet.ShowOptions();
 
                 if (optionSet.Benchmark.HasFlag(ProgramOptionSet.BenchmarkOptions.Latency))
@@ -47,7 +56,6 @@
                     Console.Write("Press any key to continue...");
                     Console.ReadKey();
                 }
-
             }
             catch (OptionException ex)
             {
@@ -151,6 +159,29 @@
             Console.WriteLine();
             Console.WriteLine("Benchmark Options:");
             new MessageLatencyOptionSet().WriteOptionDescriptions(Console.Out);
+        }
+
+        static void ConfigureLogger()
+        {
+            const string logConfig = @"<?xml version=""1.0"" encoding=""utf-8"" ?>
+<log4net>
+  <root>
+    <level value=""DEBUG"" />
+    <appender-ref ref=""console"" />
+  </root>
+  <appender name=""console"" type=""log4net.Appender.ColoredConsoleAppender"">
+    <layout type=""log4net.Layout.PatternLayout"">
+      <conversionPattern value=""%m%n"" />
+    </layout>
+  </appender>
+</log4net>";
+
+            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(logConfig)))
+            {
+                XmlConfigurator.Configure(stream);
+            }
+
+            Log4NetLogger.Use();
         }
     }
 }
