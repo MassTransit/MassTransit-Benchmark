@@ -60,6 +60,7 @@
                 Console.WriteLine("Total consume duration: {0:g}", _consumeDuration);
                 Console.WriteLine("Consume message rate: {0:F2} (msg/s)",
                     _settings.MessageCount * 1000 / _consumeDuration.TotalMilliseconds);
+                Console.WriteLine("Concurrent Consumer Count: {0}", MessageLatencyConsumer.MaxConsumerCount);
 
                 MessageMetric[] messageMetrics = _capture.GetMessageMetrics();
 

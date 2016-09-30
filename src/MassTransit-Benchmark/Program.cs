@@ -9,6 +9,7 @@
     using log4net.Config;
     using Latency;
     using MassTransit.Log4NetIntegration.Logging;
+    using Microsoft.ServiceBus;
     using NDesk.Options;
     using RequestResponse;
 
@@ -21,6 +22,8 @@
         {
             Console.WriteLine("MassTransit Benchmark");
             Console.WriteLine();
+
+            ServiceBusEnvironment.SystemConnectivity.Mode = ConnectivityMode.Https;
 
             var optionSet = new ProgramOptionSet();
 
@@ -166,7 +169,7 @@
             const string logConfig = @"<?xml version=""1.0"" encoding=""utf-8"" ?>
 <log4net>
   <root>
-    <level value=""DEBUG"" />
+    <level value=""INFO"" />
     <appender-ref ref=""console"" />
   </root>
   <appender name=""console"" type=""log4net.Appender.ColoredConsoleAppender"">

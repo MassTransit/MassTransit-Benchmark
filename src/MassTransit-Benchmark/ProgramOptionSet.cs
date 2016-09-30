@@ -25,7 +25,7 @@ namespace MassTransitBenchmark
         public ProgramOptionSet()
         {
             Add<string>("v|verbose", "Verbose output", x => Verbose = x != null);
-            Add<string>("h|help", "Display this help and exit", x => Help = x != null);
+            Add<string>("?|help", "Display this help and exit", x => Help = x != null);
             Add<TransportOptions>("t|transport:", "Transport (RabbitMQ, AzureServiceBus)",
                 value => Transport = value);
             Add("rabbitmq", "Use RabbitMQ", x => Transport = TransportOptions.RabbitMQ);

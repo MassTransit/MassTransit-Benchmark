@@ -37,11 +37,11 @@ namespace MassTransitBenchmark
             TransportType = Microsoft.ServiceBus.Messaging.TransportType.Amqp;
             AmqpTransportSettings = new AmqpTransportSettings
             {
-                BatchFlushInterval = TimeSpan.FromMilliseconds(50.0)
+                BatchFlushInterval = TimeSpan.FromMilliseconds(3.0)
             };
             NetMessagingTransportSettings = new NetMessagingTransportSettings
             {
-                BatchFlushInterval = TimeSpan.FromMilliseconds(50.0)
+                BatchFlushInterval = TimeSpan.FromMilliseconds(3.0)
             };
 
             DefaultConnections = ServicePointManager.DefaultConnectionLimit;

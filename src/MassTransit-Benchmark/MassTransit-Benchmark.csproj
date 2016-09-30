@@ -38,19 +38,19 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="MassTransit, Version=3.4.0.0, Culture=neutral, PublicKeyToken=b8e0e9f2f1e657fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\MassTransit.3.4.0\lib\net452\MassTransit.dll</HintPath>
+      <HintPath>..\packages\MassTransit.3.4.1\lib\net452\MassTransit.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MassTransit.AzureServiceBusTransport, Version=3.4.0.0, Culture=neutral, PublicKeyToken=b8e0e9f2f1e657fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\MassTransit.AzureServiceBus.3.4.0\lib\net452\MassTransit.AzureServiceBusTransport.dll</HintPath>
+      <HintPath>..\packages\MassTransit.AzureServiceBus.3.4.1\lib\net452\MassTransit.AzureServiceBusTransport.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MassTransit.Log4NetIntegration, Version=3.4.0.0, Culture=neutral, PublicKeyToken=b8e0e9f2f1e657fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\MassTransit.Log4Net.3.4.0\lib\net452\MassTransit.Log4NetIntegration.dll</HintPath>
+      <HintPath>..\packages\MassTransit.Log4Net.3.4.1\lib\net452\MassTransit.Log4NetIntegration.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MassTransit.RabbitMqTransport, Version=3.4.0.0, Culture=neutral, PublicKeyToken=b8e0e9f2f1e657fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\MassTransit.RabbitMQ.3.4.0\lib\net452\MassTransit.RabbitMqTransport.dll</HintPath>
+      <HintPath>..\packages\MassTransit.RabbitMQ.3.4.1\lib\net452\MassTransit.RabbitMqTransport.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ServiceBus, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
