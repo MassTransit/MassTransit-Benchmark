@@ -36,6 +36,8 @@ namespace MassTransitBenchmark
             ClientCertificatePassphrase = "";
 
             MessageNameFormatter = new RabbitMqMessageNameFormatter();
+
+            PublisherConfirmation = true;
         }
 
         public string Host { get; set; }
@@ -61,6 +63,26 @@ namespace MassTransitBenchmark
         public string[] ClusterMembers => null;
         public IRabbitMqEndpointResolver HostNameSelector => null;
         public string ClientProvidedName => "mtbench";
+
+        public Uri HostAddress
+        {
+            get
+            {
+                var builder = new UriBuilder
+                {
+                    Scheme = "rabbitmq",
+                    Host = Host,
+                    Port = Port == 5672 ? 0 : Port,
+                    Path = string.IsNullOrWhiteSpace(VirtualHost) || VirtualHost == "/"
+                        ? "/"
+                        : $"/{VirtualHost.Trim('/')}"
+                };
+
+                return builder.Uri;
+            }
+        }
+
+        public bool PublisherConfirmation { get; }
 
         public void ShowOptions()
         {

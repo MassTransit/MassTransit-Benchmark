@@ -4,6 +4,7 @@ namespace MassTransitBenchmark.Latency
     using System.Threading.Tasks;
     using MassTransit;
     using MassTransit.AzureServiceBusTransport;
+    using MassTransit.Util;
 
 
     public class ServiceBusMessageLatencyTransport :
@@ -40,7 +41,7 @@ namespace MassTransitBenchmark.Latency
                 });
             });
 
-            busControl.Start();
+            TaskUtil.Await(() => busControl.StartAsync());
 
             _targetEndpoint = busControl.GetSendEndpoint(_targetAddress);
 

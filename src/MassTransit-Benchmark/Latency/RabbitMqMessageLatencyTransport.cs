@@ -4,6 +4,7 @@ namespace MassTransitBenchmark.Latency
     using System.Threading.Tasks;
     using MassTransit;
     using MassTransit.RabbitMqTransport;
+    using MassTransit.Util;
 
 
     public class RabbitMqMessageLatencyTransport :
@@ -42,7 +43,7 @@ namespace MassTransitBenchmark.Latency
                 });
             });
 
-            busControl.Start();
+            TaskUtil.Await(() => busControl.StartAsync());
 
             _targetEndpoint = busControl.GetSendEndpoint(_targetAddress);
 

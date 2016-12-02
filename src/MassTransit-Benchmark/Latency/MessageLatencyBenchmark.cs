@@ -91,7 +91,7 @@
             }
             finally
             {
-                busControl.Stop(cancellationToken);
+                busControl.Stop();
             }
         }
 

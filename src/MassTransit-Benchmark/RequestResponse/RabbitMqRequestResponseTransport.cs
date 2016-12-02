@@ -4,6 +4,7 @@ namespace MassTransitBenchmark.RequestResponse
     using System.Threading.Tasks;
     using MassTransit;
     using MassTransit.RabbitMqTransport;
+    using MassTransit.Util;
 
 
     public class RabbitMqRequestResponseTransport :
@@ -43,7 +44,7 @@ namespace MassTransitBenchmark.RequestResponse
                 });
             });
 
-            busControl.Start();
+            TaskUtil.Await(() => busControl.StartAsync());
 
             _targetEndpoint = busControl.GetSendEndpoint(_targetEndpointAddress);
 
