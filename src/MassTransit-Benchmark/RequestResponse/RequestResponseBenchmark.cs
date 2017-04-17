@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using GreenPipes;
     using Latency;
     using MassTransit;
     using MassTransit.Util;

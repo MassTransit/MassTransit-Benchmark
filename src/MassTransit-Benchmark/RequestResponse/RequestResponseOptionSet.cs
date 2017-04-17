@@ -20,7 +20,7 @@ namespace MassTransitBenchmark.RequestResponse
 
             MessageCount = 10000;
             PrefetchCount = 100;
-            ConcurrencyLimit = 16;
+            ConcurrencyLimit = 0;
             Clients = 10;
             Durable = false;
             PublisherConfirmation = false;
