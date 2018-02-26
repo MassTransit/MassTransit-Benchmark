@@ -16,14 +16,12 @@ namespace MassTransitBenchmark.RequestResponse
             Add<int>("clients:", "The number of sending message clients", value => Clients = value);
             Add<bool>("durable", "The number of concurrent consumers", value => Durable = value);
             Add<int>("timeout:", "The request timeout, in seconds", value => RequestTimeout = TimeSpan.FromSeconds(value));
-            Add<bool>("confirm:", "Publisher Confirmation", value => PublisherConfirmation = value);
 
             MessageCount = 10000;
             PrefetchCount = 100;
             ConcurrencyLimit = 0;
             Clients = 10;
             Durable = false;
-            PublisherConfirmation = false;
         }
 
         public bool Durable { get; set; }
@@ -32,6 +30,5 @@ namespace MassTransitBenchmark.RequestResponse
         public int Clients { get; set; }
         public int ConcurrencyLimit { get; set; }
         public TimeSpan RequestTimeout { get; set; }
-        public bool PublisherConfirmation { get; set; }
     }
 }

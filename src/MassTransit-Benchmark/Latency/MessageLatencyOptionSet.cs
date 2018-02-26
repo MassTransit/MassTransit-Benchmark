@@ -15,14 +15,11 @@ namespace MassTransitBenchmark.Latency
             Add<int>("clients:", "The number of sending message clients", value => Clients = value);
             Add<bool>("durable", "The number of concurrent consumers", value => Durable = value);
             Add<int>("payload:", "The size of the additional payload for the message", value => PayloadSize = value);
-            Add<bool>("confirm:", "Publisher Confirmation", value => PublisherConfirmation = value);
-
             MessageCount = 10000;
             PrefetchCount = 100;
             ConcurrencyLimit = 0;
             Clients = 10;
             Durable = false;
-            PublisherConfirmation = false;
         }
 
         public int PayloadSize { get; set; }
@@ -31,6 +28,5 @@ namespace MassTransitBenchmark.Latency
         public ushort PrefetchCount { get; set; }
         public int Clients { get; set; }
         public int ConcurrencyLimit { get; set; }
-        public bool PublisherConfirmation { get; set; }
     }
 }

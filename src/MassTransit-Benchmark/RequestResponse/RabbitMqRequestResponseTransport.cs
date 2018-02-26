@@ -30,8 +30,6 @@ namespace MassTransitBenchmark.RequestResponse
             {
                 var host = x.Host(_hostSettings);
 
-                x.PublisherConfirmation = _settings.PublisherConfirmation;
-
                 x.ReceiveEndpoint(host, "rpc_consumer" + (_settings.Durable ? "" : "_express"), e =>
                 {
                     e.PurgeOnStartup = true;

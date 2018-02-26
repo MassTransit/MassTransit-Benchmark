@@ -20,6 +20,7 @@ namespace MassTransitBenchmark
             Add<string>("u|username:", "Username (if using basic credentials)", value => Username = value);
             Add<string>("p|password:", "Password (if using basic credentials)", value => Password = value);
             Add<ushort>("heartbeat:", "Heartbeat (for RabbitMQ)", value => Heartbeat = value);
+            Add<bool>("confirm:", "Publisher Confirmation", value => PublisherConfirmation = value);
 
             Host = "localhost";
             Username = "guest";
@@ -37,7 +38,7 @@ namespace MassTransitBenchmark
 
             MessageNameFormatter = new RabbitMqMessageNameFormatter();
 
-            PublisherConfirmation = true;
+            PublisherConfirmation = false;
         }
 
         public string Host { get; set; }
@@ -57,6 +58,10 @@ namespace MassTransitBenchmark
 
         public X509Certificate ClientCertificate => null;
         public bool UseClientCertificateAsAuthenticationIdentity => false;
+
+        public LocalCertificateSelectionCallback CertificateSelectionCallback { get; set; }
+
+        public RemoteCertificateValidationCallback CertificateValidationCallback { get; set; }
 
         public IMessageNameFormatter MessageNameFormatter { get; }
 
@@ -82,7 +87,7 @@ namespace MassTransitBenchmark
             }
         }
 
-        public bool PublisherConfirmation { get; }
+        public bool PublisherConfirmation { get; set; }
 
         public void ShowOptions()
         {
@@ -91,6 +96,7 @@ namespace MassTransitBenchmark
             Console.WriteLine("Username: {0}", Username);
             Console.WriteLine("Password: {0}", new string('*', (Password ?? "default").Length));
             Console.WriteLine("Heartbeat: {0}", Heartbeat);
+            Console.WriteLine("Publisher Confirmation: {0}", PublisherConfirmation);
         }
     }
 }

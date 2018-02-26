@@ -16,7 +16,5 @@
         int Clients { get; }
 
         TimeSpan RequestTimeout { get; }
-
-        bool PublisherConfirmation { get; }
     }
 }

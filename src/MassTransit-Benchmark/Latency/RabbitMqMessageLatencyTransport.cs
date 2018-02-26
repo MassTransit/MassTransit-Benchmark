@@ -29,8 +29,6 @@ namespace MassTransitBenchmark.Latency
             {
                 IRabbitMqHost host = x.Host(_hostSettings);
 
-                x.PublisherConfirmation = _settings.PublisherConfirmation;
-
                 x.ReceiveEndpoint(host, "latency_consumer" + (_settings.Durable ? "" : "_express"), e =>
                 {
                     e.PurgeOnStartup = true;

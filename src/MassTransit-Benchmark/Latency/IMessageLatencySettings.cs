@@ -25,7 +25,5 @@ namespace MassTransitBenchmark.Latency
         int Clients { get; }
 
         int PayloadSize { get; }
-
-        bool PublisherConfirmation { get; }
     }
 }
