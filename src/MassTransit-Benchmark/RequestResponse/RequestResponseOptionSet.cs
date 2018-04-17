@@ -22,6 +22,7 @@ namespace MassTransitBenchmark.RequestResponse
             ConcurrencyLimit = 0;
             Clients = 10;
             Durable = false;
+            RequestTimeout = TimeSpan.FromSeconds(30);
         }
 
         public bool Durable { get; set; }

@@ -7,17 +7,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Xml" />
-    <PackageReference Include="MassTransit.Log4Net" Version="4.0.1" />
-    <PackageReference Include="MassTransit.RabbitMQ" Version="4.0.1" />
+    <PackageReference Include="MassTransit.Log4Net" Version="5.0.0" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="5.0.0" />
+    <PackageReference Include="MassTransit" Version="5.0.0" />
     <PackageReference Include="log4net" Version="2.0.8" />
-  </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
-    <PackageReference Include="MassTransit.AzureServiceBus" Version="4.0.1"/>
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp2.0'">
     <Compile Remove="ServiceBusOptionSet.cs" />
     <Compile Remove="Latency/ServiceBusMessageLatencyTransport.cs" />
     <Compile Remove="RequestResponse/ServiceBusRequestResponseTransport.cs" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='net452'">
+    <PackageReference Include="MassTransit.AzureServiceBus" Version="5.0.0" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">
     <DefineConstants>$(DefineConstants);NETCORE</DefineConstants>

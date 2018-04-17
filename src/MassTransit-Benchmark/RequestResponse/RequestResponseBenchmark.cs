@@ -22,7 +22,7 @@
         MessageMetricCapture _capture;
         TimeSpan _consumeDuration;
         TimeSpan _requestDuration;
-        IRequestClient<RequestMessage, ResponseMessage> _client;
+        IRequestClient<RequestMessage> _client;
 
         public RequestResponseBenchmark(IRequestResponseTransport transport, IRequestResponseSettings settings)
         {
@@ -41,7 +41,7 @@
 
             var busControl = _transport.GetBusControl(ConfigureReceiveEndpoint);
 
-            _client = new MessageRequestClient<RequestMessage, ResponseMessage>(busControl, _transport.TargetEndpointAddress, _settings.RequestTimeout);
+            _client = busControl.CreateRequestClient<RequestMessage>(_transport.TargetEndpointAddress, _settings.RequestTimeout);
 
             try
             {
@@ -152,7 +152,7 @@
             for (long i = 0; i < messageCount; i++)
             {
                 var messageId = NewId.NextGuid();
-                var task = _client.Request(new RequestMessage(messageId));
+                var task = _client.GetResponse<ResponseMessage>(new RequestMessage(messageId));
 
                 await _capture.ResponseReceived(messageId, task);
             }
