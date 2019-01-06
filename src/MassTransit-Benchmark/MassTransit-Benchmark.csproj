@@ -3,13 +3,13 @@
     <OutputType>Exe</OutputType>
     <AssemblyName>mtbench</AssemblyName>
     <RootNamespace>MassTransitBenchmark</RootNamespace>
-    <TargetFrameworks>net452;netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>net452;netcoreapp2.2</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Xml" />
-    <PackageReference Include="MassTransit.Log4Net" Version="5.0.0" />
-    <PackageReference Include="MassTransit.RabbitMQ" Version="5.0.0" />
-    <PackageReference Include="MassTransit" Version="5.0.0" />
+    <PackageReference Include="MassTransit.Log4Net" Version="5.2.0" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="5.2.0" />
+    <PackageReference Include="MassTransit" Version="5.2.0" />
     <PackageReference Include="log4net" Version="2.0.8" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='netcoreapp2.0'">
@@ -18,9 +18,12 @@
     <Compile Remove="RequestResponse/ServiceBusRequestResponseTransport.cs" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='net452'">
-    <PackageReference Include="MassTransit.AzureServiceBus" Version="5.0.0" />
+    <PackageReference Include="MassTransit.AzureServiceBus" Version="5.2.0" />
   </ItemGroup>
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.2' ">
+    <PackageReference Include="MassTransit.Azure.ServiceBus.Core" Version="5.2.0" />
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.2' ">
     <DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
   </PropertyGroup>
 </Project>

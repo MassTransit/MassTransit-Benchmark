@@ -13,7 +13,7 @@ namespace MassTransitBenchmark.Latency
             Add<ushort>("prefetch:", "The prefetch count for the broker", value => PrefetchCount = value);
             Add<int>("concurrency:", "The number of concurrent consumers", value => ConcurrencyLimit = value);
             Add<int>("clients:", "The number of sending message clients", value => Clients = value);
-            Add<bool>("durable", "The number of concurrent consumers", value => Durable = value);
+            Add<bool>("durable:", "True if the messages should be persisted", value => Durable = value);
             Add<int>("payload:", "The size of the additional payload for the message", value => PayloadSize = value);
             MessageCount = 10000;
             PrefetchCount = 100;

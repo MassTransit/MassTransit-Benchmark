@@ -3,7 +3,11 @@ namespace MassTransitBenchmark.RequestResponse
     using System;
     using System.Threading.Tasks;
     using MassTransit;
+#if !NETCOREAPP2_2
     using MassTransit.AzureServiceBusTransport;
+#else
+    using MassTransit.Azure.ServiceBus.Core;
+#endif
     using MassTransit.Util;
 
 
@@ -33,7 +37,9 @@ namespace MassTransitBenchmark.RequestResponse
 
                 x.ReceiveEndpoint(host, "rpc_consumer" + (_settings.Durable ? "" : "_express"), e =>
                 {
+#if !NETCOREAPP2_2
                     e.EnableExpress = !_settings.Durable;
+#endif
                     e.PrefetchCount = _settings.PrefetchCount;
                     e.MaxConcurrentCalls = _settings.ConcurrencyLimit;
 

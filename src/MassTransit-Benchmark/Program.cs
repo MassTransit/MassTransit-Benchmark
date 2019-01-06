@@ -1,6 +1,4 @@
-﻿using log4net;
-
-namespace MassTransitBenchmark
+﻿namespace MassTransitBenchmark
 {
     using System;
     using System.Collections.Generic;
@@ -10,10 +8,14 @@ namespace MassTransitBenchmark
     using System.Text;
     using log4net.Config;
     using Latency;
+    using log4net;
     using MassTransit.Log4NetIntegration.Logging;
-#if !NETCOREAPP2_0
+#if !NETCOREAPP2_2
+    using MassTransit.AzureServiceBusTransport;
     using Microsoft.ServiceBus;
-    #endif
+#else
+    using MassTransit.Azure.ServiceBus.Core;
+#endif
     using NDesk.Options;
     using RequestResponse;
 
@@ -27,7 +29,7 @@ namespace MassTransitBenchmark
             Console.WriteLine("MassTransit Benchmark");
             Console.WriteLine();
 
-#if !NETCOREAPP2_0
+#if !NETCOREAPP2_2
             ServiceBusEnvironment.SystemConnectivity.Mode = ConnectivityMode.Https;
 #endif
             var optionSet = new ProgramOptionSet();
@@ -82,7 +84,6 @@ namespace MassTransitBenchmark
             IMessageLatencySettings settings = messageLatencyOptionSet;
 
             IMessageLatencyTransport transport;
-#if !NETCOREAPP2_0
             if (optionSet.Transport == ProgramOptionSet.TransportOptions.AzureServiceBus)
             {
                 var serviceBusOptionSet = new ServiceBusOptionSet();
@@ -98,16 +99,13 @@ namespace MassTransitBenchmark
             }
             else
             {
-    #endif
-            var rabbitMqOptionSet = new RabbitMqOptionSet();
-            rabbitMqOptionSet.Parse(_remaining);
+                var rabbitMqOptionSet = new RabbitMqOptionSet();
+                rabbitMqOptionSet.Parse(_remaining);
 
-            rabbitMqOptionSet.ShowOptions();
+                rabbitMqOptionSet.ShowOptions();
 
-            transport = new RabbitMqMessageLatencyTransport(rabbitMqOptionSet, settings);
-#if !NETCOREAPP2_0
+                transport = new RabbitMqMessageLatencyTransport(rabbitMqOptionSet, settings);
             }
-#endif
 
             var benchmark = new MessageLatencyBenchmark(transport, settings);
 
@@ -123,7 +121,6 @@ namespace MassTransitBenchmark
             IRequestResponseSettings settings = requestResponseOptionSet;
 
             IRequestResponseTransport transport;
-#if !NETCOREAPP2_0
             if (optionSet.Transport == ProgramOptionSet.TransportOptions.AzureServiceBus)
             {
                 var serviceBusOptionSet = new ServiceBusOptionSet();
@@ -139,16 +136,14 @@ namespace MassTransitBenchmark
             }
             else
             {
-    #endif
-            var rabbitMqOptionSet = new RabbitMqOptionSet();
-            rabbitMqOptionSet.Parse(_remaining);
+                var rabbitMqOptionSet = new RabbitMqOptionSet();
+                rabbitMqOptionSet.Parse(_remaining);
 
-            rabbitMqOptionSet.ShowOptions();
+                rabbitMqOptionSet.ShowOptions();
 
-            transport = new RabbitMqRequestResponseTransport(rabbitMqOptionSet, settings);
-#if !NETCOREAPP2_0
+                transport = new RabbitMqRequestResponseTransport(rabbitMqOptionSet, settings);
             }
-#endif
+
             var benchmark = new RequestResponseBenchmark(transport, settings);
 
             benchmark.Run();
@@ -169,9 +164,7 @@ namespace MassTransitBenchmark
 
             Console.WriteLine();
             Console.WriteLine("Azure Service Bus Options:");
-#if !NETCOREAPP2_0
             new ServiceBusOptionSet().WriteOptionDescriptions(Console.Out);
-#endif
             Console.WriteLine();
             Console.WriteLine("Benchmark Options:");
             new MessageLatencyOptionSet().WriteOptionDescriptions(Console.Out);
@@ -195,7 +188,7 @@ namespace MassTransitBenchmark
 
             using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(logConfig)))
             {
-#if NETCOREAPP2_0
+#if NETCOREAPP2_2
                 var logRepository = LogManager.GetRepository(System.Reflection.Assembly.GetEntryAssembly());
                 XmlConfigurator.Configure(logRepository, stream);
 #else
