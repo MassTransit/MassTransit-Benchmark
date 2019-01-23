@@ -3,11 +3,7 @@ namespace MassTransitBenchmark.Latency
     using System;
     using System.Threading.Tasks;
     using MassTransit;
-#if !NETCOREAPP2_2
-    using MassTransit.AzureServiceBusTransport;
-#else
     using MassTransit.Azure.ServiceBus.Core;
-#endif
     using MassTransit.Util;
 
 
@@ -35,9 +31,6 @@ namespace MassTransitBenchmark.Latency
 
                 x.ReceiveEndpoint(host, "latency_consumer" + (_settings.Durable ? "" : "_express"), e =>
                 {
-#if !NETCOREAPP2_2
-                    e.EnableExpress = !_settings.Durable;
-#endif
                     e.PrefetchCount = _settings.PrefetchCount;
                     if (_settings.ConcurrencyLimit > 0)
                         e.MaxConcurrentCalls = _settings.ConcurrencyLimit;

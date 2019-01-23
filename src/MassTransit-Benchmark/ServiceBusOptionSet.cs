@@ -1,16 +1,9 @@
 namespace MassTransitBenchmark
 {
     using System;
-#if !NETCOREAPP2_2
-    using MassTransit.AzureServiceBusTransport;
-    using Microsoft.ServiceBus;
-    using Microsoft.ServiceBus.Messaging;
-    using Microsoft.ServiceBus.Messaging.Amqp;
-#else
     using MassTransit.Azure.ServiceBus.Core;
     using Microsoft.Azure.ServiceBus;
     using Microsoft.Azure.ServiceBus.Primitives;
-#endif
     using NDesk.Options;
 
 
@@ -44,16 +37,6 @@ namespace MassTransitBenchmark
             _tokenTimeToLive = TimeSpan.FromDays(1);
             _tokenScope = TokenScope.Namespace;
             TransportType = TransportType.Amqp;
-#if !NETCOREAPP2_2
-            AmqpTransportSettings = new AmqpTransportSettings
-            {
-                BatchFlushInterval = TimeSpan.FromMilliseconds(3.0)
-            };
-            NetMessagingTransportSettings = new NetMessagingTransportSettings
-            {
-                BatchFlushInterval = TimeSpan.FromMilliseconds(3.0)
-            };
-#endif
             OperationTimeout = TimeSpan.FromSeconds(60.0);
             RetryMinBackoff = TimeSpan.FromMilliseconds(100.0);
             RetryMaxBackoff = TimeSpan.FromSeconds(20.0);
@@ -66,20 +49,9 @@ namespace MassTransitBenchmark
 
         public Uri ServiceUri { get; private set; }
 
-#if !NETCOREAPP2_2
-         TokenProvider ServiceBusHostSettings.TokenProvider =>
-            TokenProvider.CreateSharedAccessSignatureTokenProvider(_keyName, _accessKey, _tokenTimeToLive, _tokenScope);
-#else
          ITokenProvider ServiceBusHostSettings.TokenProvider =>
             Microsoft.Azure.ServiceBus.Primitives.TokenProvider.CreateSharedAccessSignatureTokenProvider(_keyName, _accessKey, _tokenTimeToLive, _tokenScope);
-#endif
         public TransportType TransportType { get; }
-
-#if !NETCOREAPP2_2
-        public AmqpTransportSettings AmqpTransportSettings { get; }
-
-        public NetMessagingTransportSettings NetMessagingTransportSettings { get; }
-#endif
 
         public TimeSpan OperationTimeout { get; }
 

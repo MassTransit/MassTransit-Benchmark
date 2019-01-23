@@ -6,16 +6,10 @@
     using System.IO;
     using System.Net;
     using System.Text;
+    using log4net;
     using log4net.Config;
     using Latency;
-    using log4net;
     using MassTransit.Log4NetIntegration.Logging;
-#if !NETCOREAPP2_2
-    using MassTransit.AzureServiceBusTransport;
-    using Microsoft.ServiceBus;
-#else
-    using MassTransit.Azure.ServiceBus.Core;
-#endif
     using NDesk.Options;
     using RequestResponse;
 
@@ -29,9 +23,6 @@
             Console.WriteLine("MassTransit Benchmark");
             Console.WriteLine();
 
-#if !NETCOREAPP2_2
-            ServiceBusEnvironment.SystemConnectivity.Mode = ConnectivityMode.Https;
-#endif
             var optionSet = new ProgramOptionSet();
 
             try

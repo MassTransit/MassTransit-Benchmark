@@ -89,6 +89,8 @@ namespace MassTransitBenchmark
 
         public bool PublisherConfirmation { get; set; }
 
+        public ushort RequestedChannelMax { get; }
+
         public void ShowOptions()
         {
             Console.WriteLine("Host: {0}", Host);
