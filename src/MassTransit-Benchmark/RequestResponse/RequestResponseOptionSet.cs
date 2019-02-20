@@ -14,7 +14,7 @@ namespace MassTransitBenchmark.RequestResponse
             Add<ushort>("prefetch:", "The prefetch count for the broker", value => PrefetchCount = value);
             Add<int>("concurrency:", "The number of concurrent consumers", value => ConcurrencyLimit = value);
             Add<int>("clients:", "The number of sending message clients", value => Clients = value);
-            Add<bool>("durable", "The number of concurrent consumers", value => Durable = value);
+            Add<bool>("durable:", "The number of concurrent consumers", value => Durable = value);
             Add<int>("timeout:", "The request timeout, in seconds", value => RequestTimeout = TimeSpan.FromSeconds(value));
 
             MessageCount = 10000;

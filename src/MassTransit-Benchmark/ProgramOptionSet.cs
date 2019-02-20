@@ -26,6 +26,7 @@ namespace MassTransitBenchmark
         {
             Add<string>("v|verbose", "Verbose output", x => Verbose = x != null);
             Add<string>("?|help", "Display this help and exit", x => Help = x != null);
+            Add<int>("threads:", "The number of sending message clients", value => Threads = value);
             Add<TransportOptions>("t|transport:", "Transport (RabbitMQ, AzureServiceBus)",
                 value => Transport = value);
             Add("rabbitmq", "Use RabbitMQ", x => Transport = TransportOptions.RabbitMQ);
@@ -40,10 +41,12 @@ namespace MassTransitBenchmark
 
         public BenchmarkOptions Benchmark { get; private set; }
 
+        public int? Threads { get; set; }
         public bool Verbose { get; set; }
         public bool Help { get; set; }
 
         public TransportOptions Transport { get; private set; }
+
         public void ShowOptions()
         {
             Console.WriteLine("Transport: {0}", Transport);
@@ -56,11 +59,8 @@ namespace MassTransitBenchmark
                 Console.WriteLine("Transport");
             }
 
-            //            _log.InfoFormat("Message Size: {0} {1}", _messageSize, _mixed ? "(mixed)" : "(fixed)");
-            //            _log.InfoFormat("Iterations: {0}", _iterations);
-            //            _log.InfoFormat("Clients: {0}", _instances);
-            //            _log.InfoFormat("Requests Per Client: {0}", _requestsPerInstance);
-            //            _log.InfoFormat("Consumer Limit: {0}", _consumerLimit);
+            if (Threads.HasValue)
+                Console.WriteLine("Threads: {0}", Threads.Value);
         }
     }
 }

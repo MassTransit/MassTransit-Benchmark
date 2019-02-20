@@ -6,6 +6,7 @@
     using System.IO;
     using System.Net;
     using System.Text;
+    using System.Threading;
     using log4net;
     using log4net.Config;
     using Latency;
@@ -41,6 +42,12 @@
                 }
 
                 optionSet.ShowOptions();
+
+                if (optionSet.Threads.HasValue)
+                {
+                    ThreadPool.GetMinThreads(out var workerThreads, out var completionPortThreads);
+                    ThreadPool.SetMinThreads(Math.Max(workerThreads, optionSet.Threads.Value), completionPortThreads);
+                }
 
                 if (optionSet.Benchmark.HasFlag(ProgramOptionSet.BenchmarkOptions.Latency))
                 {
