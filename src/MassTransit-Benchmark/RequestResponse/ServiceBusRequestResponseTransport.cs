@@ -34,7 +34,8 @@ namespace MassTransitBenchmark.RequestResponse
                 x.ReceiveEndpoint(host, "rpc_consumer" + (_settings.Durable ? "" : "_express"), e =>
                 {
                     e.PrefetchCount = _settings.PrefetchCount;
-                    e.MaxConcurrentCalls = _settings.ConcurrencyLimit;
+                    if (_settings.ConcurrencyLimit > 0)
+                        e.MaxConcurrentCalls = _settings.ConcurrencyLimit;
 
                     callback(e);
 

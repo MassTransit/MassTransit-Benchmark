@@ -19,16 +19,12 @@ namespace MassTransitBenchmark
         public ServiceBusOptionSet()
         {
             Add<string>("ns=", "The service bus namespace",
-                x =>
+                x => ServiceUri = new UriBuilder
                 {
-                    ServiceUri =
-                        new UriBuilder()
-                        {
-                            Scheme = "sb",
-                            Host = $"{x}.servicebus.windows.net",
-                            Path = "Benchmark"
-                        }.Uri;
-                });
+                    Scheme = "sb",
+                    Host = $"{x}.servicebus.windows.net",
+                    Path = "Benchmark"
+                }.Uri);
             Add<string>("keyname=", "The access key name", x => _keyName = x);
             Add<string>("key=", "The access key", x => _accessKey = x);
             Add<int>("connections=", "The number of connections to configure for the service point manager",
@@ -49,8 +45,9 @@ namespace MassTransitBenchmark
 
         public Uri ServiceUri { get; private set; }
 
-         ITokenProvider ServiceBusHostSettings.TokenProvider =>
-            Microsoft.Azure.ServiceBus.Primitives.TokenProvider.CreateSharedAccessSignatureTokenProvider(_keyName, _accessKey, _tokenTimeToLive, _tokenScope);
+        ITokenProvider ServiceBusHostSettings.TokenProvider =>
+            TokenProvider.CreateSharedAccessSignatureTokenProvider(_keyName, _accessKey, _tokenTimeToLive, _tokenScope);
+
         public TransportType TransportType { get; }
 
         public TimeSpan OperationTimeout { get; }
