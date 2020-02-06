@@ -27,9 +27,9 @@ namespace MassTransitBenchmark.Latency
         {
             IBusControl busControl = Bus.Factory.CreateUsingAzureServiceBus(x =>
             {
-                IServiceBusHost host = x.Host(_hostSettings);
+                x.Host(_hostSettings);
 
-                x.ReceiveEndpoint(host, "latency_consumer" + (_settings.Durable ? "" : "_express"), e =>
+                x.ReceiveEndpoint("latency_consumer" + (_settings.Durable ? "" : "_express"), e =>
                 {
                     e.PrefetchCount = _settings.PrefetchCount;
                     if (_settings.ConcurrencyLimit > 0)

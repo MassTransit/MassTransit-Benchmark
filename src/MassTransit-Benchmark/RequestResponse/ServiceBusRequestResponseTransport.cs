@@ -29,9 +29,9 @@ namespace MassTransitBenchmark.RequestResponse
         {
             var busControl = Bus.Factory.CreateUsingAzureServiceBus(x =>
             {
-                var host = x.Host(_hostSettings);
+                x.Host(_hostSettings);
 
-                x.ReceiveEndpoint(host, "rpc_consumer" + (_settings.Durable ? "" : "_express"), e =>
+                x.ReceiveEndpoint("rpc_consumer" + (_settings.Durable ? "" : "_express"), e =>
                 {
                     e.PrefetchCount = _settings.PrefetchCount;
                     if (_settings.ConcurrencyLimit > 0)

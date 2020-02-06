@@ -36,6 +36,7 @@ namespace MassTransitBenchmark
             ClientCertificatePath = "";
             ClientCertificatePassphrase = "";
 
+            RequestedConnectionTimeout = 10000;
             MessageNameFormatter = new RabbitMqMessageNameFormatter();
 
             PublisherConfirmation = false;
@@ -90,6 +91,8 @@ namespace MassTransitBenchmark
         public bool PublisherConfirmation { get; set; }
 
         public ushort RequestedChannelMax { get; }
+
+        public int RequestedConnectionTimeout { get; }
 
         public void ShowOptions()
         {

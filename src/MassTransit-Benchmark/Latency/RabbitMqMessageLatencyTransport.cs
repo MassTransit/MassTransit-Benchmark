@@ -27,14 +27,14 @@ namespace MassTransitBenchmark.Latency
         {
             IBusControl busControl = Bus.Factory.CreateUsingRabbitMq(x =>
             {
-                IRabbitMqHost host = x.Host(_hostSettings);
+                x.Host(_hostSettings);
 
-                x.ReceiveEndpoint(host, "latency_consumer" + (_settings.Durable ? "" : "_express"), e =>
+                x.ReceiveEndpoint("latency_consumer" + (_settings.Durable ? "" : "_express"), e =>
                 {
                     e.PurgeOnStartup = true;
                     e.Durable = _settings.Durable;
                     e.PrefetchCount = _settings.PrefetchCount;
-                    
+
                     callback(e);
 
                     _targetAddress = e.InputAddress;

@@ -28,9 +28,9 @@ namespace MassTransitBenchmark.RequestResponse
         {
             var busControl = Bus.Factory.CreateUsingRabbitMq(x =>
             {
-                var host = x.Host(_hostSettings);
+                x.Host(_hostSettings);
 
-                x.ReceiveEndpoint(host, "rpc_consumer" + (_settings.Durable ? "" : "_express"), e =>
+                x.ReceiveEndpoint("rpc_consumer" + (_settings.Durable ? "" : "_express"), e =>
                 {
                     e.PurgeOnStartup = true;
                     e.Durable = _settings.Durable;
