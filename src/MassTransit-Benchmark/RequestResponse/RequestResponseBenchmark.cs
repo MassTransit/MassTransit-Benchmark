@@ -6,7 +6,6 @@
     using System.Threading;
     using System.Threading.Tasks;
     using GreenPipes;
-    using Latency;
     using MassTransit;
     using MassTransit.Util;
 
@@ -22,7 +21,7 @@
         MessageMetricCapture _capture;
         TimeSpan _consumeDuration;
         TimeSpan _requestDuration;
-        IRequestClient<RequestMessage> _client;
+        IBusControl _busControl;
 
         public RequestResponseBenchmark(IRequestResponseTransport transport, IRequestResponseSettings settings)
         {
@@ -35,19 +34,17 @@
             }
         }
 
-        public void Run(CancellationToken cancellationToken = default(CancellationToken))
+        public void Run(CancellationToken cancellationToken = default)
         {
             _capture = new MessageMetricCapture(_settings.MessageCount);
 
-            var busControl = _transport.GetBusControl(ConfigureReceiveEndpoint);
-
-            _client = busControl.CreateRequestClient<RequestMessage>(_transport.TargetEndpointAddress, _settings.RequestTimeout);
+            _busControl = _transport.GetBusControl(ConfigureReceiveEndpoint);
 
             try
             {
                 Console.WriteLine("Running Request Response Benchmark");
 
-                TaskUtil.Await(() => RunBenchmark(), cancellationToken);
+                TaskUtil.Await(RunBenchmark, cancellationToken);
 
                 Console.WriteLine("Message Count: {0}", _settings.MessageCount);
                 Console.WriteLine("Clients: {0}", _settings.Clients);
@@ -95,7 +92,7 @@
             }
             finally
             {
-                busControl.Stop();
+                _busControl.Stop();
             }
         }
 
@@ -136,25 +133,29 @@
 
             for (var i = 0; i < _settings.Clients; i++)
             {
-                stripes[i] = RunStripe(_settings.MessageCount / _settings.Clients);
+                var clientFactory = await _transport.ClientFactory.ConfigureAwait(false);
+
+                stripes[i] = RunStripe(clientFactory, _settings.MessageCount / _settings.Clients);
             }
 
-            await Task.WhenAll(stripes);
+            await Task.WhenAll(stripes).ConfigureAwait(false);
 
-            _requestDuration = await _capture.RequestCompleted;
-            _consumeDuration = await _capture.ConsumeCompleted;
+            _requestDuration = await _capture.RequestCompleted.ConfigureAwait(false);
+            _consumeDuration = await _capture.ConsumeCompleted.ConfigureAwait(false);
         }
 
-        async Task RunStripe(long messageCount)
+        async Task RunStripe(IClientFactory clientFactory, long messageCount)
         {
             await Task.Yield();
+
+            var client = clientFactory.CreateRequestClient<RequestMessage>(_transport.TargetEndpointAddress, _settings.RequestTimeout);
 
             for (long i = 0; i < messageCount; i++)
             {
                 var messageId = NewId.NextGuid();
-                var task = _client.GetResponse<ResponseMessage>(new RequestMessage(messageId));
+                var task = client.GetResponse<ResponseMessage>(new RequestMessage(messageId));
 
-                await _capture.ResponseReceived(messageId, task);
+                await _capture.ResponseReceived(messageId, task).ConfigureAwait(false);
             }
         }
 

@@ -10,7 +10,7 @@ namespace MassTransitBenchmark.RequestResponse
         /// <summary>
         /// The target endpoint where messages are to be sent
         /// </summary>
-        Task<ISendEndpoint> TargetEndpoint { get; }
+        Task<IClientFactory> ClientFactory { get; }
 
         /// <summary>
         /// The address of the target endpoint

@@ -12,8 +12,8 @@ namespace MassTransitBenchmark.RequestResponse
     {
         readonly RabbitMqHostSettings _hostSettings;
         readonly IRequestResponseSettings _settings;
-        Task<ISendEndpoint> _targetEndpoint;
         Uri _targetEndpointAddress;
+        Task<IClientFactory> _clientFactory;
 
         public RabbitMqRequestResponseTransport(RabbitMqHostSettings hostSettings, IRequestResponseSettings settings)
         {
@@ -21,7 +21,8 @@ namespace MassTransitBenchmark.RequestResponse
             _settings = settings;
         }
 
-        public Task<ISendEndpoint> TargetEndpoint => _targetEndpoint;
+        public Task<IClientFactory> ClientFactory => _clientFactory;
+
         public Uri TargetEndpointAddress => _targetEndpointAddress;
 
         public IBusControl GetBusControl(Action<IReceiveEndpointConfigurator> callback)
@@ -44,7 +45,7 @@ namespace MassTransitBenchmark.RequestResponse
 
             TaskUtil.Await(() => busControl.StartAsync());
 
-            _targetEndpoint = busControl.GetSendEndpoint(_targetEndpointAddress);
+            _clientFactory = busControl.CreateReplyToClientFactory();
 
             return busControl;
         }

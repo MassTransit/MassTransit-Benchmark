@@ -13,8 +13,8 @@ namespace MassTransitBenchmark.RequestResponse
         readonly ServiceBusHostSettings _hostSettings;
         readonly IRequestResponseSettings _settings;
 
-        Task<ISendEndpoint> _targetEndpoint;
         Uri _targetEndpointAddress;
+        IBusControl _busControl;
 
         public ServiceBusRequestResponseTransport(ServiceBusHostSettings hostSettings, IRequestResponseSettings settings)
         {
@@ -22,7 +22,8 @@ namespace MassTransitBenchmark.RequestResponse
             _settings = settings;
         }
 
-        public Task<ISendEndpoint> TargetEndpoint => _targetEndpoint;
+        public Task<IClientFactory> ClientFactory => Task.FromResult(_busControl.CreateClientFactory());
+
         public Uri TargetEndpointAddress => _targetEndpointAddress;
 
         public IBusControl GetBusControl(Action<IReceiveEndpointConfigurator> callback)
@@ -45,7 +46,7 @@ namespace MassTransitBenchmark.RequestResponse
 
             TaskUtil.Await(() => busControl.StartAsync());
 
-            _targetEndpoint = busControl.GetSendEndpoint(_targetEndpointAddress);
+            _busControl = busControl;
 
             return busControl;
         }

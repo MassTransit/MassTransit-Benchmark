@@ -36,7 +36,7 @@
             _payload = _settings.PayloadSize > 0 ? new string('*', _settings.PayloadSize) : null;
         }
 
-        public void Run(CancellationToken cancellationToken = default(CancellationToken))
+        public void Run(CancellationToken cancellationToken = default)
         {
             _capture = new MessageMetricCapture(_settings.MessageCount);
 
@@ -45,7 +45,7 @@
             {
                 Console.WriteLine("Running Message Latency Benchmark");
 
-                TaskUtil.Await(() => RunBenchmark(busControl), cancellationToken);
+                TaskUtil.Await(RunBenchmark, cancellationToken);
 
                 Console.WriteLine("Message Count: {0}", _settings.MessageCount);
                 Console.WriteLine("Clients: {0}", _settings.Clients);
@@ -124,23 +124,24 @@
             }
         }
 
-        async Task RunBenchmark(IBusControl busControl)
+        async Task RunBenchmark()
         {
             await Task.Yield();
-
-            ISendEndpoint targetEndpoint = await _transport.TargetEndpoint;
 
             var stripes = new Task[_settings.Clients];
 
             for (var i = 0; i < _settings.Clients; i++)
             {
+                ISendEndpoint targetEndpoint = await _transport.TargetEndpoint;
+
                 stripes[i] = RunStripe(targetEndpoint, _settings.MessageCount / _settings.Clients);
             }
 
-            await Task.WhenAll(stripes);
+            await Task.WhenAll(stripes).ConfigureAwait(false);
 
-            _sendDuration = await _capture.SendCompleted;
-            _consumeDuration = await _capture.ConsumeCompleted;
+            _sendDuration = await _capture.SendCompleted.ConfigureAwait(false);
+
+            _consumeDuration = await _capture.ConsumeCompleted.ConfigureAwait(false);
         }
 
         async Task RunStripe(ISendEndpoint targetEndpoint, long messageCount)
@@ -152,7 +153,7 @@
                 Guid messageId = NewId.NextGuid();
                 Task task = targetEndpoint.Send(new LatencyTestMessage(messageId, _payload));
 
-                await _capture.Sent(messageId, task);
+                await _capture.Sent(messageId, task).ConfigureAwait(false);
             }
         }
 

@@ -26,7 +26,7 @@ namespace MassTransitBenchmark
         {
             Add<string>("v|verbose", "Verbose output", x => Verbose = x != null);
             Add<string>("?|help", "Display this help and exit", x => Help = x != null);
-            Add<int>("threads:", "The number of sending message clients", value => Threads = value);
+            Add<int>("threads:", "The minimum number of thread pool threads", value => Threads = value);
             Add<TransportOptions>("t|transport:", "Transport (RabbitMQ, AzureServiceBus)",
                 value => Transport = value);
             Add("rabbitmq", "Use RabbitMQ", x => Transport = TransportOptions.RabbitMQ);

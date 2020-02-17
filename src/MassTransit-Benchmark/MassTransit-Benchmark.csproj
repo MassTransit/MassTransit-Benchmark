@@ -7,8 +7,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Xml" />
-    <PackageReference Include="MassTransit.RabbitMQ" Version="6.0.2" />
-    <PackageReference Include="MassTransit" Version="6.0.2" />
-    <PackageReference Include="MassTransit.Azure.ServiceBus.Core" Version="6.0.2"/>
+    <PackageReference Include="MassTransit.RabbitMQ" Version="6.1.0" />
+    <PackageReference Include="MassTransit" Version="6.1.0" />
+    <PackageReference Include="MassTransit.Azure.ServiceBus.Core" Version="6.1.0"/>
   </ItemGroup>
 </Project>

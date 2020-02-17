@@ -20,15 +20,15 @@
         public async Task Consume(ConsumeContext<RequestMessage> context)
         {
             var current = Interlocked.Increment(ref CurrentConsumerCount);
-            var maxConsumercount = MaxConsumerCount;
-            if (current > maxConsumercount)
-                Interlocked.CompareExchange(ref MaxConsumerCount, current, maxConsumercount);
+            var maxConsumerCount = MaxConsumerCount;
+            if (current > maxConsumerCount)
+                Interlocked.CompareExchange(ref MaxConsumerCount, current, maxConsumerCount);
 
             try
             {
                 context.Respond(new ResponseMessage(context.Message.CorrelationId));
 
-                await _report.Consumed<RequestMessage>(context.Message.CorrelationId);
+                await _report.Consumed<RequestMessage>(context.Message.CorrelationId).ConfigureAwait(false);
             }
             finally
             {

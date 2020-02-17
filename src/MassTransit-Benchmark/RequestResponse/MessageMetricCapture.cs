@@ -52,7 +52,7 @@ namespace MassTransitBenchmark.RequestResponse
         {
             long sendTimestamp = _stopwatch.ElapsedTicks;
 
-            var response = await requestTask;
+            var response = await requestTask.ConfigureAwait(false);
 
             long responseTimestamp = _stopwatch.ElapsedTicks;
 

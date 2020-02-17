@@ -51,7 +51,7 @@ namespace MassTransitBenchmark.Latency
         {
             long sendTimestamp = _stopwatch.ElapsedTicks;
 
-            await sendTask;
+            await sendTask.ConfigureAwait(false);
 
             long ackTimestamp = _stopwatch.ElapsedTicks;
 
