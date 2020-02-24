@@ -91,7 +91,7 @@
 
                 transport = new ServiceBusMessageLatencyTransport(serviceBusOptionSet, settings);
             }
-            else
+            else if (optionSet.Transport == ProgramOptionSet.TransportOptions.RabbitMQ)
             {
                 var rabbitMqOptionSet = new RabbitMqOptionSet();
                 rabbitMqOptionSet.Parse(_remaining);
@@ -99,6 +99,10 @@
                 rabbitMqOptionSet.ShowOptions();
 
                 transport = new RabbitMqMessageLatencyTransport(rabbitMqOptionSet, settings);
+            }
+            else
+            {
+                transport = new MediatorMessageLatencyTransport(settings);
             }
 
             var benchmark = new MessageLatencyBenchmark(transport, settings);
@@ -128,7 +132,7 @@
 
                 transport = new ServiceBusRequestResponseTransport(serviceBusOptionSet, settings);
             }
-            else
+            else if (optionSet.Transport == ProgramOptionSet.TransportOptions.RabbitMQ)
             {
                 var rabbitMqOptionSet = new RabbitMqOptionSet();
                 rabbitMqOptionSet.Parse(_remaining);
@@ -136,6 +140,10 @@
                 rabbitMqOptionSet.ShowOptions();
 
                 transport = new RabbitMqRequestResponseTransport(rabbitMqOptionSet, settings);
+            }
+            else
+            {
+                transport = new MediatorRequestResponseTransport(settings);
             }
 
             var benchmark = new RequestResponseBenchmark(transport, settings);

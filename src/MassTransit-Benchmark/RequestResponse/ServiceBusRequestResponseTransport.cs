@@ -4,7 +4,6 @@ namespace MassTransitBenchmark.RequestResponse
     using System.Threading.Tasks;
     using MassTransit;
     using MassTransit.Azure.ServiceBus.Core;
-    using MassTransit.Util;
 
 
     public class ServiceBusRequestResponseTransport :
@@ -15,6 +14,7 @@ namespace MassTransitBenchmark.RequestResponse
 
         Uri _targetEndpointAddress;
         IBusControl _busControl;
+        IClientFactory _clientFactory;
 
         public ServiceBusRequestResponseTransport(ServiceBusHostSettings hostSettings, IRequestResponseSettings settings)
         {
@@ -22,13 +22,15 @@ namespace MassTransitBenchmark.RequestResponse
             _settings = settings;
         }
 
-        public Task<IClientFactory> ClientFactory => Task.FromResult(_busControl.CreateClientFactory());
-
-        public Uri TargetEndpointAddress => _targetEndpointAddress;
-
-        public IBusControl GetBusControl(Action<IReceiveEndpointConfigurator> callback)
+        public Task<IRequestClient<T>> GetRequestClient<T>(TimeSpan settingsRequestTimeout)
+            where T : class
         {
-            var busControl = Bus.Factory.CreateUsingAzureServiceBus(x =>
+            return Task.FromResult(_clientFactory.CreateRequestClient<T>(_targetEndpointAddress, settingsRequestTimeout));
+        }
+
+        public void GetBusControl(Action<IReceiveEndpointConfigurator> callback)
+        {
+            _busControl = Bus.Factory.CreateUsingAzureServiceBus(x =>
             {
                 x.Host(_hostSettings);
 
@@ -44,11 +46,14 @@ namespace MassTransitBenchmark.RequestResponse
                 });
             });
 
-            TaskUtil.Await(() => busControl.StartAsync());
+            _busControl.Start();
 
-            _busControl = busControl;
+            _clientFactory = _busControl.CreateClientFactory();
+        }
 
-            return busControl;
+        public void Dispose()
+        {
+            _busControl.Stop();
         }
     }
 }

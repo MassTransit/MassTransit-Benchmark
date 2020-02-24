@@ -21,7 +21,6 @@
         MessageMetricCapture _capture;
         TimeSpan _consumeDuration;
         TimeSpan _requestDuration;
-        IBusControl _busControl;
 
         public RequestResponseBenchmark(IRequestResponseTransport transport, IRequestResponseSettings settings)
         {
@@ -38,8 +37,7 @@
         {
             _capture = new MessageMetricCapture(_settings.MessageCount);
 
-            _busControl = _transport.GetBusControl(ConfigureReceiveEndpoint);
-
+            _transport.GetBusControl(ConfigureReceiveEndpoint);
             try
             {
                 Console.WriteLine("Running Request Response Benchmark");
@@ -92,7 +90,7 @@
             }
             finally
             {
-                _busControl.Stop();
+                _transport.Dispose();
             }
         }
 
@@ -133,9 +131,9 @@
 
             for (var i = 0; i < _settings.Clients; i++)
             {
-                var clientFactory = await _transport.ClientFactory.ConfigureAwait(false);
+                var requestClient = await _transport.GetRequestClient<RequestMessage>(_settings.RequestTimeout).ConfigureAwait(false);
 
-                stripes[i] = RunStripe(clientFactory, _settings.MessageCount / _settings.Clients);
+                stripes[i] = RunStripe(requestClient, _settings.MessageCount / _settings.Clients);
             }
 
             await Task.WhenAll(stripes).ConfigureAwait(false);
@@ -144,11 +142,9 @@
             _consumeDuration = await _capture.ConsumeCompleted.ConfigureAwait(false);
         }
 
-        async Task RunStripe(IClientFactory clientFactory, long messageCount)
+        async Task RunStripe(IRequestClient<RequestMessage> client, long messageCount)
         {
             await Task.Yield();
-
-            var client = clientFactory.CreateRequestClient<RequestMessage>(_transport.TargetEndpointAddress, _settings.RequestTimeout);
 
             for (long i = 0; i < messageCount; i++)
             {

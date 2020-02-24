@@ -4,7 +4,6 @@ namespace MassTransitBenchmark.RequestResponse
     using System.Threading.Tasks;
     using MassTransit;
     using MassTransit.RabbitMqTransport;
-    using MassTransit.Util;
 
 
     public class RabbitMqRequestResponseTransport :
@@ -14,6 +13,7 @@ namespace MassTransitBenchmark.RequestResponse
         readonly IRequestResponseSettings _settings;
         Uri _targetEndpointAddress;
         Task<IClientFactory> _clientFactory;
+        IBusControl _busControl;
 
         public RabbitMqRequestResponseTransport(RabbitMqHostSettings hostSettings, IRequestResponseSettings settings)
         {
@@ -21,13 +21,17 @@ namespace MassTransitBenchmark.RequestResponse
             _settings = settings;
         }
 
-        public Task<IClientFactory> ClientFactory => _clientFactory;
-
-        public Uri TargetEndpointAddress => _targetEndpointAddress;
-
-        public IBusControl GetBusControl(Action<IReceiveEndpointConfigurator> callback)
+        public async Task<IRequestClient<T>> GetRequestClient<T>(TimeSpan settingsRequestTimeout)
+            where T : class
         {
-            var busControl = Bus.Factory.CreateUsingRabbitMq(x =>
+            var clientFactory = await _clientFactory;
+
+            return clientFactory.CreateRequestClient<T>(_targetEndpointAddress, settingsRequestTimeout);
+        }
+
+        public void GetBusControl(Action<IReceiveEndpointConfigurator> callback)
+        {
+            _busControl = Bus.Factory.CreateUsingRabbitMq(x =>
             {
                 x.Host(_hostSettings);
 
@@ -43,11 +47,14 @@ namespace MassTransitBenchmark.RequestResponse
                 });
             });
 
-            TaskUtil.Await(() => busControl.StartAsync());
+            _busControl.Start();
 
-            _clientFactory = busControl.CreateReplyToClientFactory();
+            _clientFactory = _busControl.CreateReplyToClientFactory();
+        }
 
-            return busControl;
+        public void Dispose()
+        {
+            _busControl.Stop();
         }
     }
 }

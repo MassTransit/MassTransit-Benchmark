@@ -18,7 +18,8 @@ namespace MassTransitBenchmark
         public enum TransportOptions
         {
             RabbitMQ,
-            AzureServiceBus
+            AzureServiceBus,
+            Mediator
         }
 
 
@@ -30,6 +31,7 @@ namespace MassTransitBenchmark
             Add<TransportOptions>("t|transport:", "Transport (RabbitMQ, AzureServiceBus)",
                 value => Transport = value);
             Add("rabbitmq", "Use RabbitMQ", x => Transport = TransportOptions.RabbitMQ);
+            Add("mediator", "Use Mediator", x => Transport = TransportOptions.Mediator);
             Add("servicebus", "Use Azure Service Bus", x => Transport = TransportOptions.AzureServiceBus);
 
             Add<BenchmarkOptions>("run:", "Run benchmark (All, Latency, RPC)", value => Benchmark = value);
@@ -50,14 +52,6 @@ namespace MassTransitBenchmark
         public void ShowOptions()
         {
             Console.WriteLine("Transport: {0}", Transport);
-
-            if (Transport == TransportOptions.RabbitMQ)
-            {
-            }
-            else
-            {
-                Console.WriteLine("Transport");
-            }
 
             if (Threads.HasValue)
                 Console.WriteLine("Threads: {0}", Threads.Value);

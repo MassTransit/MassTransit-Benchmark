@@ -5,22 +5,12 @@ namespace MassTransitBenchmark.RequestResponse
     using MassTransit;
 
 
-    public interface IRequestResponseTransport
+    public interface IRequestResponseTransport :
+        IDisposable
     {
-        /// <summary>
-        /// The target endpoint where messages are to be sent
-        /// </summary>
-        Task<IClientFactory> ClientFactory { get; }
+        Task<IRequestClient<T>> GetRequestClient<T>(TimeSpan settingsRequestTimeout)
+            where T : class;
 
-        /// <summary>
-        /// The address of the target endpoint
-        /// </summary>
-        Uri TargetEndpointAddress { get; }
-
-        /// <summary>
-        /// The bus control
-        /// </summary>
-        /// <param name="callback"></param>
-        IBusControl GetBusControl(Action<IReceiveEndpointConfigurator> callback);
+        void GetBusControl(Action<IReceiveEndpointConfigurator> callback);
     }
 }

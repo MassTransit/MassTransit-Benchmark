@@ -40,7 +40,7 @@
         {
             _capture = new MessageMetricCapture(_settings.MessageCount);
 
-            IBusControl busControl = _transport.GetBusControl(ConfigureReceiveEndpoint);
+            _transport.Start(ConfigureReceiveEndpoint);
             try
             {
                 Console.WriteLine("Running Message Latency Benchmark");
@@ -91,7 +91,7 @@
             }
             finally
             {
-                busControl.Stop();
+                _transport.Dispose();
             }
         }
 
