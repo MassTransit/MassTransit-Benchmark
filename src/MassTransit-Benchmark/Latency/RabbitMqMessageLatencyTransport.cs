@@ -21,24 +21,7 @@ namespace MassTransitBenchmark.Latency
             _settings = settings;
         }
 
-        public Task<ISendEndpoint> TargetEndpoint
-        {
-            get
-            {
-                return _targetEndpoint;
-
-                // async Task<ISendEndpoint> GetAsync()
-                // {
-                //     var responseEndpointHandle = _busControl.ConnectResponseEndpoint();
-                //
-                //     await responseEndpointHandle.Ready;
-                //
-                //     return await responseEndpointHandle.ReceiveEndpoint.GetSendEndpoint(_targetAddress);
-                // }
-                //
-                // return GetAsync();
-            }
-        }
+        public Task<ISendEndpoint> TargetEndpoint => _targetEndpoint;
 
         public void Start(Action<IReceiveEndpointConfigurator> callback)
         {

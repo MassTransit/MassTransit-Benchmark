@@ -13,6 +13,8 @@ namespace MassTransitBenchmark
         OptionSet,
         RabbitMqHostSettings
     {
+        BatchSettings _batchSettings;
+
         public RabbitMqOptionSet()
         {
             Add<string>("h|host:", "The host name of the broker", x => Host = x);
@@ -21,6 +23,7 @@ namespace MassTransitBenchmark
             Add<string>("p|password:", "Password (if using basic credentials)", value => Password = value);
             Add<ushort>("heartbeat:", "Heartbeat (for RabbitMQ)", value => Heartbeat = value);
             Add<bool>("confirm:", "Publisher Confirmation", value => PublisherConfirmation = value);
+            Add<bool>("batch:", "Batch Publish", EnableBatch);
 
             Host = "localhost";
             Username = "guest";
@@ -40,6 +43,18 @@ namespace MassTransitBenchmark
             MessageNameFormatter = new RabbitMqMessageNameFormatter();
 
             PublisherConfirmation = false;
+            EnableBatch(true);
+        }
+
+        void EnableBatch(bool enabled)
+        {
+            _batchSettings = new ConfigurationBatchSettings()
+            {
+                Enabled = enabled,
+                MessageLimit = 100,
+                SizeLimit = 200000,
+                Timeout = TimeSpan.FromMilliseconds(4)
+            };
         }
 
         public string Host { get; set; }
@@ -67,7 +82,8 @@ namespace MassTransitBenchmark
         public IMessageNameFormatter MessageNameFormatter { get; }
 
         public string[] ClusterMembers => null;
-        public IRabbitMqEndpointResolver HostNameSelector => null;
+        public IRabbitMqEndpointResolver EndpointResolver => null;
+
         public string ClientProvidedName => "mtbench";
 
         public Uri HostAddress
@@ -94,6 +110,8 @@ namespace MassTransitBenchmark
 
         public int RequestedConnectionTimeout { get; }
 
+        public BatchSettings BatchSettings => _batchSettings;
+
         public void ShowOptions()
         {
             Console.WriteLine("Host: {0}", Host);
@@ -103,5 +121,18 @@ namespace MassTransitBenchmark
             Console.WriteLine("Heartbeat: {0}", Heartbeat);
             Console.WriteLine("Publisher Confirmation: {0}", PublisherConfirmation);
         }
+    }
+
+
+    class ConfigurationBatchSettings :
+        BatchSettings
+    {
+        public bool Enabled { get; set; }
+
+        public int MessageLimit { get; set; }
+
+        public int SizeLimit { get; set; }
+
+        public TimeSpan Timeout { get; set; }
     }
 }

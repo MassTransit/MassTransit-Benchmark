@@ -50,7 +50,7 @@
                     RunLatencyBenchmark(optionSet);
                 }
 
-                if (optionSet.Benchmark.HasFlag(ProgramOptionSet.BenchmarkOptions.RPC))
+                if (optionSet.Benchmark.HasFlag(ProgramOptionSet.BenchmarkOptions.Rpc))
                 {
                     RunRequestResponseBenchmark(optionSet);
                 }
@@ -91,7 +91,7 @@
 
                 transport = new ServiceBusMessageLatencyTransport(serviceBusOptionSet, settings);
             }
-            else if (optionSet.Transport == ProgramOptionSet.TransportOptions.RabbitMQ)
+            else if (optionSet.Transport == ProgramOptionSet.TransportOptions.RabbitMq)
             {
                 var rabbitMqOptionSet = new RabbitMqOptionSet();
                 rabbitMqOptionSet.Parse(_remaining);
@@ -99,6 +99,15 @@
                 rabbitMqOptionSet.ShowOptions();
 
                 transport = new RabbitMqMessageLatencyTransport(rabbitMqOptionSet, settings);
+            }
+            else if (optionSet.Transport == ProgramOptionSet.TransportOptions.AmazonSqs)
+            {
+                var amazonSqsOptionSet = new AmazonSqsOptionSet();
+                amazonSqsOptionSet.Parse(_remaining);
+
+                amazonSqsOptionSet.ShowOptions();
+
+                transport = new AmazonSqsMessageLatencyTransport(amazonSqsOptionSet, settings);
             }
             else
             {
@@ -132,7 +141,7 @@
 
                 transport = new ServiceBusRequestResponseTransport(serviceBusOptionSet, settings);
             }
-            else if (optionSet.Transport == ProgramOptionSet.TransportOptions.RabbitMQ)
+            else if (optionSet.Transport == ProgramOptionSet.TransportOptions.RabbitMq)
             {
                 var rabbitMqOptionSet = new RabbitMqOptionSet();
                 rabbitMqOptionSet.Parse(_remaining);
@@ -167,6 +176,11 @@
             Console.WriteLine();
             Console.WriteLine("Azure Service Bus Options:");
             new ServiceBusOptionSet().WriteOptionDescriptions(Console.Out);
+
+            Console.WriteLine();
+            Console.WriteLine("Amazon SQS Options:");
+            new AmazonSqsOptionSet().WriteOptionDescriptions(Console.Out);
+
             Console.WriteLine();
             Console.WriteLine("Benchmark Options:");
             new MessageLatencyOptionSet().WriteOptionDescriptions(Console.Out);
