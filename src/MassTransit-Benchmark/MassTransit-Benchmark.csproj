@@ -10,9 +10,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MassTransit.RabbitMQ" Version="6.2.6-develop.2622" />
-    <PackageReference Include="MassTransit" Version="6.2.6-develop.2622" />
-    <PackageReference Include="MassTransit.Azure.ServiceBus.Core" Version="6.2.6-develop.2622" />    
-    <PackageReference Include="MassTransit.AmazonSQS" Version="6.2.6-develop.2622" />    
+    <ProjectReference Include="..\..\..\MassTransit\src\MassTransit.AmazonSqsTransport\MassTransit.AmazonSqsTransport.csproj" />
+    <ProjectReference Include="..\..\..\MassTransit\src\MassTransit.Azure.ServiceBus.Core\MassTransit.Azure.ServiceBus.Core.csproj" />
+    <ProjectReference Include="..\..\..\MassTransit\src\MassTransit.RabbitMqTransport\MassTransit.RabbitMqTransport.csproj" />
+    <ProjectReference Include="..\..\..\MassTransit\src\MassTransit\MassTransit.csproj" />
   </ItemGroup>
 </Project>

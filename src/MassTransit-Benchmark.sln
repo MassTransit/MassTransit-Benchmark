@@ -5,6 +5,14 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassTransit-Benchmark", "MassTransit-Benchmark\MassTransit-Benchmark.csproj", "{27399C88-2AD6-4A3D-AEB9-BC109DA33063}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassTransit", "..\..\MassTransit\src\MassTransit\MassTransit.csproj", "{D7F30A4B-023D-435B-A724-8A141FD0DCF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassTransit.Azure.ServiceBus.Core", "..\..\MassTransit\src\MassTransit.Azure.ServiceBus.Core\MassTransit.Azure.ServiceBus.Core.csproj", "{FCA073AA-A14D-4A7C-A318-A05D4EBC9546}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassTransit.RabbitMqTransport", "..\..\MassTransit\src\MassTransit.RabbitMqTransport\MassTransit.RabbitMqTransport.csproj", "{2B77B2AE-C85F-4D41-8969-AD24E17DA83C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassTransit.AmazonSqsTransport", "..\..\MassTransit\src\MassTransit.AmazonSqsTransport\MassTransit.AmazonSqsTransport.csproj", "{263245BE-81C4-4F2A-A7A2-02BCB706932C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +23,22 @@ Global
 		{27399C88-2AD6-4A3D-AEB9-BC109DA33063}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27399C88-2AD6-4A3D-AEB9-BC109DA33063}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27399C88-2AD6-4A3D-AEB9-BC109DA33063}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7F30A4B-023D-435B-A724-8A141FD0DCF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7F30A4B-023D-435B-A724-8A141FD0DCF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7F30A4B-023D-435B-A724-8A141FD0DCF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7F30A4B-023D-435B-A724-8A141FD0DCF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCA073AA-A14D-4A7C-A318-A05D4EBC9546}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCA073AA-A14D-4A7C-A318-A05D4EBC9546}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCA073AA-A14D-4A7C-A318-A05D4EBC9546}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCA073AA-A14D-4A7C-A318-A05D4EBC9546}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B77B2AE-C85F-4D41-8969-AD24E17DA83C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B77B2AE-C85F-4D41-8969-AD24E17DA83C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B77B2AE-C85F-4D41-8969-AD24E17DA83C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B77B2AE-C85F-4D41-8969-AD24E17DA83C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{263245BE-81C4-4F2A-A7A2-02BCB706932C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{263245BE-81C4-4F2A-A7A2-02BCB706932C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{263245BE-81C4-4F2A-A7A2-02BCB706932C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{263245BE-81C4-4F2A-A7A2-02BCB706932C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
