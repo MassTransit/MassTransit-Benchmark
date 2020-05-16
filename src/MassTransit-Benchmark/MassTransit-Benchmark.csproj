@@ -3,13 +3,14 @@
     <OutputType>Exe</OutputType>
     <AssemblyName>mtbench</AssemblyName>
     <RootNamespace>MassTransitBenchmark</RootNamespace>
-    <TargetFrameworks>net461;netcoreapp2.2</TargetFrameworks>
-    <LangVersion>latest</LangVersion>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\MassTransit\src\MassTransit.ActiveMqTransport\MassTransit.ActiveMqTransport.csproj" />
     <ProjectReference Include="..\..\..\MassTransit\src\MassTransit.AmazonSqsTransport\MassTransit.AmazonSqsTransport.csproj" />
     <ProjectReference Include="..\..\..\MassTransit\src\MassTransit.Azure.ServiceBus.Core\MassTransit.Azure.ServiceBus.Core.csproj" />
     <ProjectReference Include="..\..\..\MassTransit\src\MassTransit.RabbitMqTransport\MassTransit.RabbitMqTransport.csproj" />

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassTransit.RabbitMqTranspo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassTransit.AmazonSqsTransport", "..\..\MassTransit\src\MassTransit.AmazonSqsTransport\MassTransit.AmazonSqsTransport.csproj", "{263245BE-81C4-4F2A-A7A2-02BCB706932C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassTransit.ActiveMqTransport", "..\..\MassTransit\src\MassTransit.ActiveMqTransport\MassTransit.ActiveMqTransport.csproj", "{C407DACE-2A4E-489B-9F05-429B8854DDA1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{263245BE-81C4-4F2A-A7A2-02BCB706932C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{263245BE-81C4-4F2A-A7A2-02BCB706932C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{263245BE-81C4-4F2A-A7A2-02BCB706932C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C407DACE-2A4E-489B-9F05-429B8854DDA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C407DACE-2A4E-489B-9F05-429B8854DDA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C407DACE-2A4E-489B-9F05-429B8854DDA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C407DACE-2A4E-489B-9F05-429B8854DDA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
