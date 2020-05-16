@@ -3,6 +3,7 @@ namespace MassTransitBenchmark.Latency
     using System;
     using System.Threading.Tasks;
     using MassTransit;
+    using MassTransit.Mediator;
     using MassTransit.Util;
 
 
