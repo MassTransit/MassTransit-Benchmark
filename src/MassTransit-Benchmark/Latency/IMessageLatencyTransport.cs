@@ -6,7 +6,7 @@ namespace MassTransitBenchmark.Latency
 
 
     public interface IMessageLatencyTransport :
-        IDisposable
+        IAsyncDisposable
     {
         /// <summary>
         /// The target endpoint where messages are to be sent
@@ -17,6 +17,6 @@ namespace MassTransitBenchmark.Latency
         /// The bus control
         /// </summary>
         /// <param name="callback"></param>
-        void Start(Action<IReceiveEndpointConfigurator> callback);
+        Task Start(Action<IReceiveEndpointConfigurator> callback);
     }
 }

@@ -3,7 +3,7 @@ namespace MassTransitBenchmark.Latency
     using System;
     using System.Threading.Tasks;
     using MassTransit;
-    using MassTransit.Util;
+    using MassTransit.Mediator;
 
 
     public class MediatorMessageLatencyTransport :
@@ -20,16 +20,16 @@ namespace MassTransitBenchmark.Latency
 
         public Task<ISendEndpoint> TargetEndpoint => _targetEndpoint;
 
-        public void Start(Action<IReceiveEndpointConfigurator> callback)
+        public async Task Start(Action<IReceiveEndpointConfigurator> callback)
         {
             _mediator = Bus.Factory.CreateMediator(callback);
 
             _targetEndpoint = Task.FromResult<ISendEndpoint>(_mediator);
         }
 
-        public void Dispose()
+        public async ValueTask DisposeAsync()
         {
-            TaskUtil.Await(() => _mediator.DisposeAsync());
+            await _mediator.DisposeAsync();
         }
     }
 }

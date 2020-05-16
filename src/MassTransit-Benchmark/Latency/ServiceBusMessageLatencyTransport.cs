@@ -23,7 +23,7 @@ namespace MassTransitBenchmark.Latency
 
         public Task<ISendEndpoint> TargetEndpoint => _targetEndpoint;
 
-        public void Start(Action<IReceiveEndpointConfigurator> callback)
+        public async Task Start(Action<IReceiveEndpointConfigurator> callback)
         {
             _busControl = Bus.Factory.CreateUsingAzureServiceBus(x =>
             {
@@ -41,14 +41,14 @@ namespace MassTransitBenchmark.Latency
                 });
             });
 
-            _busControl.Start();
+            await _busControl.StartAsync();
 
             _targetEndpoint = _busControl.GetSendEndpoint(_targetAddress);
         }
 
-        public void Dispose()
+        public async ValueTask DisposeAsync()
         {
-            _busControl.Stop();
+            await _busControl.StopAsync();
         }
     }
 }
