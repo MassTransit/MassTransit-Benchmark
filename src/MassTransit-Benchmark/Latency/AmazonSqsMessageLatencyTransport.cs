@@ -4,6 +4,7 @@ namespace MassTransitBenchmark.Latency
     using System.Threading.Tasks;
     using MassTransit;
     using MassTransit.AmazonSqsTransport;
+    using MassTransit.AmazonSqsTransport.Configuration;
 
 
     public class AmazonSqsMessageLatencyTransport :

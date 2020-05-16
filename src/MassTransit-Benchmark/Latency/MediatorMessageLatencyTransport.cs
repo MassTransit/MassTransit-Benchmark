@@ -20,11 +20,13 @@ namespace MassTransitBenchmark.Latency
 
         public Task<ISendEndpoint> TargetEndpoint => _targetEndpoint;
 
-        public async Task Start(Action<IReceiveEndpointConfigurator> callback)
+        public Task Start(Action<IReceiveEndpointConfigurator> callback)
         {
             _mediator = Bus.Factory.CreateMediator(callback);
 
             _targetEndpoint = Task.FromResult<ISendEndpoint>(_mediator);
+
+            return Task.CompletedTask;
         }
 
         public async ValueTask DisposeAsync()

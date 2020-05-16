@@ -3,6 +3,7 @@ namespace MassTransitBenchmark.RequestResponse
     using System;
     using System.Threading.Tasks;
     using MassTransit;
+    using MassTransit.Mediator;
 
 
     public class MediatorRequestResponseTransport :
