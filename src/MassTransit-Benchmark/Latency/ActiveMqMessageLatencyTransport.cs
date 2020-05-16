@@ -3,19 +3,19 @@ namespace MassTransitBenchmark.Latency
     using System;
     using System.Threading.Tasks;
     using MassTransit;
-    using MassTransit.AmazonSqsTransport;
+    using MassTransit.ActiveMqTransport;
 
 
-    public class AmazonSqsMessageLatencyTransport :
+    public class ActiveMqMessageLatencyTransport :
         IMessageLatencyTransport
     {
-        readonly AmazonSqsHostSettings _hostSettings;
+        readonly ActiveMqHostSettings _hostSettings;
         readonly IMessageLatencySettings _settings;
         Uri _targetAddress;
         IBusControl _busControl;
         Task<ISendEndpoint> _targetEndpoint;
 
-        public AmazonSqsMessageLatencyTransport(AmazonSqsHostSettings hostSettings, IMessageLatencySettings settings)
+        public ActiveMqMessageLatencyTransport(ActiveMqHostSettings hostSettings, IMessageLatencySettings settings)
         {
             _hostSettings = hostSettings;
             _settings = settings;
@@ -25,7 +25,7 @@ namespace MassTransitBenchmark.Latency
 
         public async Task Start(Action<IReceiveEndpointConfigurator> callback)
         {
-            _busControl = Bus.Factory.CreateUsingAmazonSqs(x =>
+            _busControl = Bus.Factory.CreateUsingActiveMq(x =>
             {
                 x.Host(_hostSettings);
 

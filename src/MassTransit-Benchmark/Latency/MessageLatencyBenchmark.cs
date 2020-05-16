@@ -3,11 +3,9 @@
     using System;
     using System.Diagnostics;
     using System.Linq;
-    using System.Threading;
     using System.Threading.Tasks;
     using GreenPipes;
     using MassTransit;
-    using MassTransit.Util;
 
 
     /// <summary>
@@ -36,16 +34,16 @@
             _payload = _settings.PayloadSize > 0 ? new string('*', _settings.PayloadSize) : null;
         }
 
-        public void Run(CancellationToken cancellationToken = default)
+        public async Task Run()
         {
             _capture = new MessageMetricCapture(_settings.MessageCount);
 
-            _transport.Start(ConfigureReceiveEndpoint);
+            await _transport.Start(ConfigureReceiveEndpoint);
             try
             {
                 Console.WriteLine("Running Message Latency Benchmark");
 
-                TaskUtil.Await(RunBenchmark, cancellationToken);
+                await RunBenchmark();
 
                 Console.WriteLine("Message Count: {0}", _settings.MessageCount);
                 Console.WriteLine("Clients: {0}", _settings.Clients);
@@ -91,7 +89,7 @@
             }
             finally
             {
-                _transport.Dispose();
+                await _transport.DisposeAsync();
             }
         }
 

@@ -6,7 +6,6 @@ namespace MassTransitBenchmark
     using Amazon.SimpleNotificationService;
     using Amazon.SQS;
     using MassTransit.AmazonSqsTransport;
-    using MassTransit.AmazonSqsTransport.Contexts;
     using MassTransit.AmazonSqsTransport.Transport;
     using MassTransit.Transports;
     using NDesk.Options;

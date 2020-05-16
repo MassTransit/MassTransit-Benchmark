@@ -20,7 +20,8 @@ namespace MassTransitBenchmark
             RabbitMq,
             AzureServiceBus,
             Mediator,
-            AmazonSqs
+            AmazonSqs,
+            ActiveMq
         }
 
 
@@ -35,6 +36,7 @@ namespace MassTransitBenchmark
             Add("mediator", "Use Mediator", x => Transport = TransportOptions.Mediator);
             Add("sqs", "Use Amazon SQS", x => Transport = TransportOptions.AmazonSqs);
             Add("servicebus", "Use Azure Service Bus", x => Transport = TransportOptions.AzureServiceBus);
+            Add("activemq", "Use ActiveMQ", x => Transport = TransportOptions.ActiveMq);
 
             Add<BenchmarkOptions>("run:", "Run benchmark (All, Latency, RPC)", value => Benchmark = value);
             Add("rpc", "Run the RPC benchmark", x => Benchmark = BenchmarkOptions.Rpc);

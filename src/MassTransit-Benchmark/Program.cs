@@ -3,10 +3,9 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.IO;
     using System.Net;
-    using System.Text;
     using System.Threading;
+    using System.Threading.Tasks;
     using Latency;
     using NDesk.Options;
     using RequestResponse;
@@ -16,7 +15,7 @@
     {
         static List<string> _remaining;
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             Console.WriteLine("MassTransit Benchmark");
             Console.WriteLine();
@@ -47,7 +46,7 @@
 
                 if (optionSet.Benchmark.HasFlag(ProgramOptionSet.BenchmarkOptions.Latency))
                 {
-                    RunLatencyBenchmark(optionSet);
+                    await RunLatencyBenchmark(optionSet);
                 }
 
                 if (optionSet.Benchmark.HasFlag(ProgramOptionSet.BenchmarkOptions.Rpc))
@@ -69,7 +68,7 @@
             }
         }
 
-        static void RunLatencyBenchmark(ProgramOptionSet optionSet)
+        static async Task RunLatencyBenchmark(ProgramOptionSet optionSet)
         {
             var messageLatencyOptionSet = new MessageLatencyOptionSet();
 
@@ -109,6 +108,15 @@
 
                 transport = new AmazonSqsMessageLatencyTransport(amazonSqsOptionSet, settings);
             }
+            else if (optionSet.Transport == ProgramOptionSet.TransportOptions.ActiveMq)
+            {
+                var activeMqOptionSet = new ActiveMqOptionSet();
+                activeMqOptionSet.Parse(_remaining);
+
+                activeMqOptionSet.ShowOptions();
+
+                transport = new ActiveMqMessageLatencyTransport(activeMqOptionSet, settings);
+            }
             else
             {
                 transport = new MediatorMessageLatencyTransport(settings);
@@ -116,7 +124,7 @@
 
             var benchmark = new MessageLatencyBenchmark(transport, settings);
 
-            benchmark.Run();
+            await benchmark.Run();
         }
 
         static void RunRequestResponseBenchmark(ProgramOptionSet optionSet)
