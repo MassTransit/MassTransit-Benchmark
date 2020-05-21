@@ -11,7 +11,7 @@ Measures the throughput (send, consume) and latency (time from send to receive) 
 
 To see the usage, enter:
 
-`dotnet run -f netcoreapp2.2 -c Release -- -?`
+`dotnet run -f netcoreapp3.1 -c Release -- -?`
 
 That will show all the details of using the benchmark.
 
@@ -19,7 +19,7 @@ That will show all the details of using the benchmark.
 
 A good example that really hits RabbitMQ pretty hard.
 
-`dotnet run -f netcoreapp2.2 -c Release -- --count=100000 --prefetch=1000 --clients=100`
+`dotnet run -f netcoreapp3.1 -c Release -- --count=100000 --prefetch=1000 --clients=100`
 
 ### Output
 
