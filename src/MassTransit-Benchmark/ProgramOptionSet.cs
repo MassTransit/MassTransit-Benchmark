@@ -1,6 +1,7 @@
 namespace MassTransitBenchmark
 {
     using System;
+    using MassTransit.Metadata;
     using NDesk.Options;
 
 
@@ -59,6 +60,10 @@ namespace MassTransitBenchmark
 
             if (Threads.HasValue)
                 Console.WriteLine("Threads: {0}", Threads.Value);
+
+            Console.WriteLine("Operating System: {0}", Environment.OSVersion);
+            Console.WriteLine("Processor Count: {0}", Environment.ProcessorCount);
+            Console.WriteLine("MassTransit Version: {0}", HostMetadataCache.Host.MassTransitVersion);
         }
     }
 }

@@ -66,6 +66,10 @@
                 Console.WriteLine(ex.Message);
                 Console.WriteLine("Use 'mtbench --help' for detailed usage information.");
             }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Crashed: {0}", ex.Message);
+            }
         }
 
         static async Task RunLatencyBenchmark(ProgramOptionSet optionSet)

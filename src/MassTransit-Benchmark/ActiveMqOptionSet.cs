@@ -10,13 +10,21 @@ namespace MassTransitBenchmark
         OptionSet,
         ActiveMqHostSettings
     {
-        readonly ConfigurationHostSettings _hostSettings;
+        ConfigurationHostSettings _hostSettings;
 
         public ActiveMqOptionSet()
         {
             _hostSettings = new ConfigurationHostSettings(new Uri("activemq://localhost"));
 
-            Add<string>("h|host:", "The host name of the broker", x => _hostSettings.Host = x);
+            Add<string>("h|host:", "The host name of the broker", x =>
+            {
+                _hostSettings = new ConfigurationHostSettings(new Uri($"activemq://{x}"))
+                {
+                    Port = _hostSettings.Port,
+                    Username = _hostSettings.Username,
+                    Password = _hostSettings.Password
+                };
+            });
             Add<int>("port:", "The virtual host to use", value => _hostSettings.Port = value);
             Add<string>("u|username:", "Username (if using basic credentials)", value => _hostSettings.Username = value);
             Add<string>("p|password:", "Password (if using basic credentials)", value => _hostSettings.Password = value);

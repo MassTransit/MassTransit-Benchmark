@@ -21,14 +21,14 @@ namespace MassTransitBenchmark
             Add<string>("vhost:", "The virtual host to use", value => VirtualHost = value);
             Add<string>("u|username:", "Username (if using basic credentials)", value => Username = value);
             Add<string>("p|password:", "Password (if using basic credentials)", value => Password = value);
-            Add<ushort>("heartbeat:", "Heartbeat (for RabbitMQ)", value => Heartbeat = value);
+            Add<TimeSpan>("heartbeat:", "Heartbeat (for RabbitMQ)", value => Heartbeat = value);
             Add<bool>("confirm:", "Publisher Confirmation", value => PublisherConfirmation = value);
             Add<bool>("batch:", "Batch Publish", EnableBatch);
 
             Host = "localhost";
             Username = "guest";
             Password = "guest";
-            Heartbeat = 0;
+            Heartbeat = TimeSpan.Zero;
             VirtualHost = "/";
             Port = 5672;
 
@@ -39,7 +39,7 @@ namespace MassTransitBenchmark
             ClientCertificatePath = "";
             ClientCertificatePassphrase = "";
 
-            RequestedConnectionTimeout = 10000;
+            RequestedConnectionTimeout = TimeSpan.FromSeconds(10);
             MessageNameFormatter = new RabbitMqMessageNameFormatter();
 
             PublisherConfirmation = false;
@@ -53,7 +53,7 @@ namespace MassTransitBenchmark
                 Enabled = enabled,
                 MessageLimit = 100,
                 SizeLimit = 200000,
-                Timeout = TimeSpan.FromMilliseconds(4)
+                Timeout = TimeSpan.FromMilliseconds(3)
             };
         }
 
@@ -62,7 +62,7 @@ namespace MassTransitBenchmark
         public string VirtualHost { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public ushort Heartbeat { get; set; }
+        public TimeSpan Heartbeat { get; set; }
 
         public bool Ssl { get; }
 
@@ -108,7 +108,7 @@ namespace MassTransitBenchmark
 
         public ushort RequestedChannelMax { get; }
 
-        public int RequestedConnectionTimeout { get; }
+        public TimeSpan RequestedConnectionTimeout { get; }
 
         public BatchSettings BatchSettings => _batchSettings;
 

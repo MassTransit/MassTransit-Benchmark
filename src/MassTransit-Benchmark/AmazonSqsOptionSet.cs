@@ -59,6 +59,8 @@ namespace MassTransitBenchmark
 
         public AllowTransportHeader AllowTransportHeader { get; set; }
 
+        public bool ScopeTopics => false;
+
         public Uri HostAddress { get; private set; }
 
         public IConnection CreateConnection()
