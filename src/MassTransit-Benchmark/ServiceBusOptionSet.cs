@@ -1,6 +1,7 @@
 namespace MassTransitBenchmark
 {
     using System;
+    using System.Net;
     using MassTransit.Azure.ServiceBus.Core;
     using Microsoft.Azure.ServiceBus;
     using Microsoft.Azure.ServiceBus.Primitives;
@@ -38,7 +39,7 @@ namespace MassTransitBenchmark
             RetryMaxBackoff = TimeSpan.FromSeconds(20.0);
             RetryLimit = 10;
 
-            DefaultConnections = System.Net.ServicePointManager.DefaultConnectionLimit;
+            DefaultConnections = ServicePointManager.DefaultConnectionLimit;
         }
 
         public int DefaultConnections { get; set; }

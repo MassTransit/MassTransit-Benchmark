@@ -14,12 +14,12 @@
     /// </summary>
     public class MessageLatencyBenchmark
     {
+        readonly string _payload;
         readonly IMessageLatencySettings _settings;
         readonly IMessageLatencyTransport _transport;
         MessageMetricCapture _capture;
         TimeSpan _consumeDuration;
         TimeSpan _sendDuration;
-        readonly string _payload;
 
         public MessageLatencyBenchmark(IMessageLatencyTransport transport, IMessageLatencySettings settings)
         {

@@ -68,9 +68,9 @@ namespace MassTransitBenchmark.RequestResponse
         public MessageMetric[] GetMessageMetrics()
         {
             return _sentMessages.Join(_consumedMessages, x => x.MessageId, x => x.MessageId,
-                (sent, consumed) =>
-                    new MessageMetric(sent.MessageId, sent.ResponseTimestamp - sent.SendTimestamp,
-                        consumed.Timestamp - sent.SendTimestamp))
+                    (sent, consumed) =>
+                        new MessageMetric(sent.MessageId, sent.ResponseTimestamp - sent.SendTimestamp,
+                            consumed.Timestamp - sent.SendTimestamp))
                 .ToArray();
         }
 

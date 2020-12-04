@@ -11,9 +11,9 @@ namespace MassTransitBenchmark.Latency
     {
         readonly ServiceBusHostSettings _hostSettings;
         readonly IMessageLatencySettings _settings;
+        IBusControl _busControl;
         Uri _targetAddress;
         Task<ISendEndpoint> _targetEndpoint;
-        IBusControl _busControl;
 
         public ServiceBusMessageLatencyTransport(ServiceBusHostSettings hostSettings, IMessageLatencySettings settings)
         {

@@ -11,9 +11,9 @@ namespace MassTransitBenchmark.RequestResponse
     {
         readonly RabbitMqHostSettings _hostSettings;
         readonly IRequestResponseSettings _settings;
-        Uri _targetEndpointAddress;
-        Task<IClientFactory> _clientFactory;
         IBusControl _busControl;
+        Task<IClientFactory> _clientFactory;
+        Uri _targetEndpointAddress;
 
         public RabbitMqRequestResponseTransport(RabbitMqHostSettings hostSettings, IRequestResponseSettings settings)
         {

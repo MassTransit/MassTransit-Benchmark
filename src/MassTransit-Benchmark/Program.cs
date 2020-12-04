@@ -66,7 +66,7 @@
                 Console.WriteLine(ex.Message);
                 Console.WriteLine("Use 'mtbench --help' for detailed usage information.");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("Crashed: {0}", ex.Message);
             }
@@ -127,7 +127,12 @@
             }
             else
             {
-                transport = new InMemoryMessageLatencyTransport(settings);
+                var inMemoryOptionSet = new InMemoryOptionSet();
+                inMemoryOptionSet.Parse(_remaining);
+
+                inMemoryOptionSet.ShowOptions();
+
+                transport = new InMemoryMessageLatencyTransport(inMemoryOptionSet, settings);
             }
 
             var benchmark = new MessageLatencyBenchmark(transport, settings);
@@ -170,9 +175,14 @@
             {
                 transport = new MediatorRequestResponseTransport(settings);
             }
-            else 
+            else
             {
-                transport = new InMemoryRequestResponseTransport(settings);
+                var inMemoryOptionSet = new InMemoryOptionSet();
+                inMemoryOptionSet.Parse(_remaining);
+
+                inMemoryOptionSet.ShowOptions();
+
+                transport = new InMemoryRequestResponseTransport(inMemoryOptionSet, settings);
             }
 
             var benchmark = new RequestResponseBenchmark(transport, settings);

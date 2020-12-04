@@ -11,8 +11,8 @@ namespace MassTransitBenchmark.Latency
     {
         readonly ActiveMqHostSettings _hostSettings;
         readonly IMessageLatencySettings _settings;
-        Uri _targetAddress;
         IBusControl _busControl;
+        Uri _targetAddress;
         Task<ISendEndpoint> _targetEndpoint;
 
         public ActiveMqMessageLatencyTransport(ActiveMqHostSettings hostSettings, IMessageLatencySettings settings)

@@ -1,20 +1,21 @@
-﻿using MassTransit;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MassTransitBenchmark.Latency
+﻿namespace MassTransitBenchmark.Latency
 {
+    using System;
+    using System.Threading.Tasks;
+    using MassTransit;
+
+
     class InMemoryMessageLatencyTransport : IMessageLatencyTransport
     {
+        readonly InMemoryOptionSet _optionSet;
         readonly IMessageLatencySettings _settings;
-        Task<ISendEndpoint> _targetEndpoint;
         IBusControl _busControl;
         Uri _targetAddress;
+        Task<ISendEndpoint> _targetEndpoint;
 
-        public InMemoryMessageLatencyTransport(IMessageLatencySettings settings)
+        public InMemoryMessageLatencyTransport(InMemoryOptionSet optionSet, IMessageLatencySettings settings)
         {
+            _optionSet = optionSet;
             _settings = settings;
         }
 
@@ -29,6 +30,8 @@ namespace MassTransitBenchmark.Latency
         {
             _busControl = Bus.Factory.CreateUsingInMemory(x =>
             {
+                x.TransportConcurrencyLimit = _optionSet.TransportConcurrencyLimit;
+
                 x.ReceiveEndpoint("latency_consumer", e =>
                 {
                     callback(e);

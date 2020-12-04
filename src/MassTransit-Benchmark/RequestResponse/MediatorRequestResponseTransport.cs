@@ -9,8 +9,8 @@ namespace MassTransitBenchmark.RequestResponse
     public class MediatorRequestResponseTransport :
         IRequestResponseTransport
     {
-        IMediator _mediator;
         readonly IRequestResponseSettings _settings;
+        IMediator _mediator;
 
         public MediatorRequestResponseTransport(IRequestResponseSettings settings)
         {

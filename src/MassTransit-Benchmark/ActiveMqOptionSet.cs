@@ -1,6 +1,7 @@
 namespace MassTransitBenchmark
 {
     using System;
+    using Apache.NMS;
     using MassTransit.ActiveMqTransport;
     using MassTransit.ActiveMqTransport.Configurators;
     using NDesk.Options;
@@ -30,20 +31,6 @@ namespace MassTransitBenchmark
             Add<string>("p|password:", "Password (if using basic credentials)", value => _hostSettings.Password = value);
         }
 
-        public override string ToString()
-        {
-            return new UriBuilder
-            {
-                Scheme = UseSsl ? "ssl" : "tcp",
-                Host = Host
-            }.Uri.ToString();
-        }
-
-        public void ShowOptions()
-        {
-            Console.WriteLine("Host: {0}", HostAddress);
-        }
-
         public string Host => _hostSettings.Host;
 
         public int Port => _hostSettings.Port;
@@ -58,9 +45,23 @@ namespace MassTransitBenchmark
 
         public Uri BrokerAddress => _hostSettings.BrokerAddress;
 
-        public Apache.NMS.IConnection CreateConnection()
+        public IConnection CreateConnection()
         {
             return _hostSettings.CreateConnection();
+        }
+
+        public override string ToString()
+        {
+            return new UriBuilder
+            {
+                Scheme = UseSsl ? "ssl" : "tcp",
+                Host = Host
+            }.Uri.ToString();
+        }
+
+        public void ShowOptions()
+        {
+            Console.WriteLine("Host: {0}", HostAddress);
         }
     }
 }

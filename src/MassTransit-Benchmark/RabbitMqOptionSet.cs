@@ -46,16 +46,9 @@ namespace MassTransitBenchmark
             EnableBatch(true);
         }
 
-        void EnableBatch(bool enabled)
-        {
-            _batchSettings = new ConfigurationBatchSettings()
-            {
-                Enabled = enabled,
-                MessageLimit = 100,
-                SizeLimit = 200000,
-                Timeout = TimeSpan.FromMilliseconds(3)
-            };
-        }
+        public IMessageNameFormatter MessageNameFormatter { get; }
+
+        public string[] ClusterMembers => null;
 
         public string Host { get; set; }
         public int Port { get; }
@@ -78,10 +71,6 @@ namespace MassTransitBenchmark
         public LocalCertificateSelectionCallback CertificateSelectionCallback { get; set; }
 
         public RemoteCertificateValidationCallback CertificateValidationCallback { get; set; }
-
-        public IMessageNameFormatter MessageNameFormatter { get; }
-
-        public string[] ClusterMembers => null;
         public IRabbitMqEndpointResolver EndpointResolver => null;
 
         public string ClientProvidedName => "mtbench";
@@ -111,6 +100,17 @@ namespace MassTransitBenchmark
         public TimeSpan RequestedConnectionTimeout { get; }
 
         public BatchSettings BatchSettings => _batchSettings;
+
+        void EnableBatch(bool enabled)
+        {
+            _batchSettings = new ConfigurationBatchSettings
+            {
+                Enabled = enabled,
+                MessageLimit = 100,
+                SizeLimit = 200000,
+                Timeout = TimeSpan.FromMilliseconds(3)
+            };
+        }
 
         public void ShowOptions()
         {

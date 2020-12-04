@@ -1,4 +1,3 @@
-
 #if LINQ
 using System.Linq;
 #endif
@@ -195,7 +194,7 @@ namespace NDesk.Options
             if (c.Option.OptionValueType == OptionValueType.Required &&
                 index >= values.Count)
                 throw new OptionException(string.Format(
-                    c.OptionSet.MessageLocalizer("Missing required value for option '{0}'."), c.OptionName),
+                        c.OptionSet.MessageLocalizer("Missing required value for option '{0}'."), c.OptionName),
                     c.OptionName);
         }
 
@@ -300,7 +299,7 @@ namespace NDesk.Options
             if (count == 0 && type != OptionValueType.None)
                 throw new ArgumentException(
                     "Cannot provide maxValueCount of 0 for OptionValueType.Required or " +
-                        "OptionValueType.Optional.",
+                    "OptionValueType.Optional.",
                     "maxValueCount");
             if (type == OptionValueType.None && maxValueCount > 1)
                 throw new ArgumentException(
@@ -359,7 +358,7 @@ namespace NDesk.Options
         protected static T Parse<T>(string value, OptionContext c)
         {
             TypeConverter conv = TypeDescriptor.GetConverter(typeof(T));
-            T t = default(T);
+            T t = default;
             try
             {
                 if (value != null)
@@ -373,6 +372,7 @@ namespace NDesk.Options
                         value, typeof(T).Name, c.OptionName),
                     c.OptionName, e);
             }
+
             return t;
         }
 
@@ -447,6 +447,7 @@ namespace NDesk.Options
                         break;
                 }
             }
+
             if (start != -1)
                 throw new ArgumentException(
                     string.Format("Ill-formed name/value separator found in \"{0}\".", name),
@@ -743,7 +744,7 @@ namespace NDesk.Options
 			OptionContext c = CreateOptionContext ();
 			c.OptionIndex = -1;
 			var def = GetOptionForName ("<>");
-			var unprocessed = 
+			var unprocessed =
 				from argument in arguments
 				where ++c.OptionIndex >= 0 && (process || def != null)
 					? process
@@ -780,14 +781,17 @@ namespace NDesk.Options
                     process = false;
                     continue;
                 }
+
                 if (!process)
                 {
                     Unprocessed(unprocessed, def, c, argument);
                     continue;
                 }
+
                 if (!Parse(argument, c))
                     Unprocessed(unprocessed, def, c, argument);
             }
+
             if (c.Option != null)
                 c.Option.Invoke(c);
             return unprocessed;
@@ -801,6 +805,7 @@ namespace NDesk.Options
                 extra.Add(argument);
                 return false;
             }
+
             c.OptionValues.Add(argument);
             c.Option = def;
             c.Option.Invoke(c);
@@ -822,6 +827,7 @@ namespace NDesk.Options
             {
                 return false;
             }
+
             flag = m.Groups["flag"].Value;
             name = m.Groups["name"].Value;
             if (m.Groups["sep"].Success && m.Groups["value"].Success)
@@ -829,6 +835,7 @@ namespace NDesk.Options
                 sep = m.Groups["sep"].Value;
                 value = m.Groups["value"].Value;
             }
+
             return true;
         }
 
@@ -864,8 +871,10 @@ namespace NDesk.Options
                         ParseValue(v, c);
                         break;
                 }
+
                 return true;
             }
+
             // no match; is it a bool option?
             if (ParseBool(argument, n, c))
                 return true;
@@ -885,14 +894,15 @@ namespace NDesk.Options
                 {
                     c.OptionValues.Add(o);
                 }
+
             if (c.OptionValues.Count == c.Option.MaxValueCount ||
                 c.Option.OptionValueType == OptionValueType.Optional)
                 c.Option.Invoke(c);
             else if (c.OptionValues.Count > c.Option.MaxValueCount)
             {
                 throw new OptionException(localizer(string.Format(
-                    "Error: Found {0} option values when expecting {1}.",
-                    c.OptionValues.Count, c.Option.MaxValueCount)),
+                        "Error: Found {0} option values when expecting {1}.",
+                        c.OptionValues.Count, c.Option.MaxValueCount)),
                     c.OptionName);
             }
         }
@@ -912,6 +922,7 @@ namespace NDesk.Options
                 p.Invoke(c);
                 return true;
             }
+
             return false;
         }
 
@@ -931,6 +942,7 @@ namespace NDesk.Options
                     throw new OptionException(string.Format(localizer(
                         "Cannot bundle unregistered option '{0}'."), opt), opt);
                 }
+
                 p = this[rn];
                 switch (p.OptionValueType)
                 {
@@ -950,6 +962,7 @@ namespace NDesk.Options
                         throw new InvalidOperationException("Unknown OptionValueType: " + p.OptionValueType);
                 }
             }
+
             return true;
         }
 
@@ -1025,6 +1038,7 @@ namespace NDesk.Options
                 {
                     Write(o, ref written, localizer("["));
                 }
+
                 Write(o, ref written, localizer("=" + GetArgumentName(0, p.MaxValueCount, p.Description)));
                 string sep = p.ValueSeparators != null && p.ValueSeparators.Length > 0
                     ? p.ValueSeparators[0]
@@ -1033,11 +1047,13 @@ namespace NDesk.Options
                 {
                     Write(o, ref written, localizer(sep + GetArgumentName(c, p.MaxValueCount, p.Description)));
                 }
+
                 if (p.OptionValueType == OptionValueType.Optional)
                 {
                     Write(o, ref written, localizer("]"));
                 }
             }
+
             return true;
         }
 
@@ -1047,6 +1063,7 @@ namespace NDesk.Options
             {
                 ++i;
             }
+
             return i;
         }
 
@@ -1074,6 +1091,7 @@ namespace NDesk.Options
                     start = description.IndexOf(nameStart[i], j);
                 }
                 while (start >= 0 && j != 0 ? description[j++ - 1] == '{' : false);
+
                 if (start == -1)
                     continue;
                 int end = description.IndexOf("}", start);
@@ -1081,6 +1099,7 @@ namespace NDesk.Options
                     continue;
                 return description.Substring(start + nameStart[i].Length, end - start - nameStart[i].Length);
             }
+
             return maxIndex == 1 ? "VALUE" : "VALUE" + (index + 1);
         }
 
@@ -1102,6 +1121,7 @@ namespace NDesk.Options
                         }
                         else if (start < 0)
                             start = i + 1;
+
                         break;
                     case '}':
                         if (start < 0)
@@ -1116,6 +1136,7 @@ namespace NDesk.Options
                             sb.Append(description.Substring(start, i - start));
                             start = -1;
                         }
+
                         break;
                     case ':':
                         if (start < 0)
@@ -1128,6 +1149,7 @@ namespace NDesk.Options
                         break;
                 }
             }
+
             return sb.ToString();
         }
 
@@ -1139,6 +1161,7 @@ namespace NDesk.Options
                 lines.Add(string.Empty);
                 return lines;
             }
+
             int length = 80 - OptionWidth - 2;
             int start = 0,
                 end;
@@ -1157,16 +1180,19 @@ namespace NDesk.Options
                         --end;
                     }
                 }
+
                 lines.Add(description.Substring(start, end - start));
                 if (cont)
                 {
                     lines[lines.Count - 1] += "-";
                 }
+
                 start = end;
                 if (start < description.Length && description[start] == '\n')
                     ++start;
             }
             while (end < description.Length);
+
             return lines;
         }
 
@@ -1191,6 +1217,7 @@ namespace NDesk.Options
                         return i;
                 }
             }
+
             if (sep == -1 || end == description.Length)
                 return end;
             return sep;

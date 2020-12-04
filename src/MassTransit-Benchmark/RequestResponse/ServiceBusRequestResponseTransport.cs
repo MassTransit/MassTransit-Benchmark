@@ -11,10 +11,10 @@ namespace MassTransitBenchmark.RequestResponse
     {
         readonly ServiceBusHostSettings _hostSettings;
         readonly IRequestResponseSettings _settings;
-
-        Uri _targetEndpointAddress;
         IBusControl _busControl;
         IClientFactory _clientFactory;
+
+        Uri _targetEndpointAddress;
 
         public ServiceBusRequestResponseTransport(ServiceBusHostSettings hostSettings, IRequestResponseSettings settings)
         {

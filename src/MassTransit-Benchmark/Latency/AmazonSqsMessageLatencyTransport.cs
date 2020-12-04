@@ -4,7 +4,6 @@ namespace MassTransitBenchmark.Latency
     using System.Threading.Tasks;
     using MassTransit;
     using MassTransit.AmazonSqsTransport;
-    using MassTransit.AmazonSqsTransport.Configuration;
 
 
     public class AmazonSqsMessageLatencyTransport :
@@ -12,8 +11,8 @@ namespace MassTransitBenchmark.Latency
     {
         readonly AmazonSqsHostSettings _hostSettings;
         readonly IMessageLatencySettings _settings;
-        Uri _targetAddress;
         IBusControl _busControl;
+        Uri _targetAddress;
         Task<ISendEndpoint> _targetEndpoint;
 
         public AmazonSqsMessageLatencyTransport(AmazonSqsHostSettings hostSettings, IMessageLatencySettings settings)

@@ -10,8 +10,8 @@ namespace MassTransitBenchmark.Latency
         IMessageLatencyTransport
     {
         readonly IMessageLatencySettings _settings;
-        Task<ISendEndpoint> _targetEndpoint;
         IMediator _mediator;
+        Task<ISendEndpoint> _targetEndpoint;
 
         public MediatorMessageLatencyTransport(IMessageLatencySettings settings)
         {

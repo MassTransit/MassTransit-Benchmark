@@ -39,6 +39,7 @@
                 return (Convert.ToDouble(source.ElementAt(midpoint - 1)) + Convert.ToDouble(source.ElementAt(midpoint)))
                     / 2.0;
             }
+
             return Convert.ToDouble(source.ElementAt(midpoint));
         }
 
@@ -58,6 +59,7 @@
                 return (Convert.ToDouble(source.ElementAt(point - 1)) + Convert.ToDouble(source.ElementAt(point)))
                     / 2.0;
             }
+
             return Convert.ToDouble(source.ElementAt(point));
         }
     }
