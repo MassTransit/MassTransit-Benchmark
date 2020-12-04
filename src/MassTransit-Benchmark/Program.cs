@@ -121,9 +121,13 @@
 
                 transport = new ActiveMqMessageLatencyTransport(activeMqOptionSet, settings);
             }
-            else
+            else if (optionSet.Transport == ProgramOptionSet.TransportOptions.Mediator)
             {
                 transport = new MediatorMessageLatencyTransport(settings);
+            }
+            else
+            {
+                transport = new InMemoryMessageLatencyTransport(settings);
             }
 
             var benchmark = new MessageLatencyBenchmark(transport, settings);
@@ -162,9 +166,13 @@
 
                 transport = new RabbitMqRequestResponseTransport(rabbitMqOptionSet, settings);
             }
-            else
+            else if (optionSet.Transport == ProgramOptionSet.TransportOptions.Mediator)
             {
                 transport = new MediatorRequestResponseTransport(settings);
+            }
+            else 
+            {
+                transport = new InMemoryRequestResponseTransport(settings);
             }
 
             var benchmark = new RequestResponseBenchmark(transport, settings);
