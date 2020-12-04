@@ -21,6 +21,7 @@ namespace MassTransitBenchmark
             RabbitMq,
             AzureServiceBus,
             Mediator,
+            InMemory,
             AmazonSqs,
             ActiveMq
         }
@@ -35,6 +36,7 @@ namespace MassTransitBenchmark
                 value => Transport = value);
             Add("rabbitmq", "Use RabbitMQ", x => Transport = TransportOptions.RabbitMq);
             Add("mediator", "Use Mediator", x => Transport = TransportOptions.Mediator);
+            Add("inmemory", "Use InMemory", x => Transport = TransportOptions.InMemory);
             Add("sqs", "Use Amazon SQS", x => Transport = TransportOptions.AmazonSqs);
             Add("servicebus", "Use Azure Service Bus", x => Transport = TransportOptions.AzureServiceBus);
             Add("activemq", "Use ActiveMQ", x => Transport = TransportOptions.ActiveMq);
