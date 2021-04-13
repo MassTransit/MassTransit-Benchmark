@@ -27,15 +27,15 @@ namespace MassTransitBenchmark
             Add<string>("accesskey:", "Access Key", SetAccessKey);
             Add<string>("secretkey:", "Secret Key", SetSecretKey);
 
-            HostAddress = new Uri("amazonsqs://localhost:4576");
+            HostAddress = new Uri("amazonsqs://localhost:4566");
 
             Region = RegionEndpoint.APEast1;
 
             SetAccessKey("admin");
             SetSecretKey("admin");
 
-            AmazonSqsConfig = new AmazonSQSConfig {ServiceURL = "http://localhost:4576"};
-            AmazonSnsConfig = new AmazonSimpleNotificationServiceConfig {ServiceURL = "http://localhost:4575"};
+            AmazonSqsConfig = new AmazonSQSConfig {ServiceURL = "http://localhost:4566"};
+            AmazonSnsConfig = new AmazonSimpleNotificationServiceConfig {ServiceURL = "http://localhost:4566"};
         }
 
         public AWSCredentials Credentials
