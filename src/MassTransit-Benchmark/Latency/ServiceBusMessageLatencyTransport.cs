@@ -6,19 +6,23 @@ namespace MassTransitBenchmark.Latency
     using MassTransit.Azure.ServiceBus.Core;
 
 
-    public class ServiceBusMessageLatencyTransport :
+    class ServiceBusMessageLatencyTransport :
         IMessageLatencyTransport
     {
         readonly ServiceBusHostSettings _hostSettings;
         readonly IMessageLatencySettings _settings;
+        readonly bool _split;
         IBusControl _busControl;
+        IBusControl _outboundBus;
         Uri _targetAddress;
         Task<ISendEndpoint> _targetEndpoint;
 
-        public ServiceBusMessageLatencyTransport(ServiceBusHostSettings hostSettings, IMessageLatencySettings settings)
+        public ServiceBusMessageLatencyTransport(ServiceBusOptionSet hostSettings, IMessageLatencySettings settings)
         {
             _hostSettings = hostSettings;
             _settings = settings;
+
+            _split = hostSettings.Split;
         }
 
         public Task<ISendEndpoint> TargetEndpoint => _targetEndpoint;
@@ -43,12 +47,27 @@ namespace MassTransitBenchmark.Latency
 
             await _busControl.StartAsync();
 
-            _targetEndpoint = _busControl.GetSendEndpoint(_targetAddress);
+            if (_split)
+            {
+                _outboundBus = Bus.Factory.CreateUsingAzureServiceBus(x =>
+                {
+                    x.Host(_hostSettings);
+                });
+
+                await _outboundBus.StartAsync();
+
+                _targetEndpoint = _outboundBus.GetSendEndpoint(_targetAddress);
+            }
+            else
+                _targetEndpoint = _busControl.GetSendEndpoint(_targetAddress);
         }
 
         public async ValueTask DisposeAsync()
         {
             await _busControl.StopAsync();
+
+            if (_outboundBus != null)
+                await _outboundBus.StopAsync();
         }
     }
 }

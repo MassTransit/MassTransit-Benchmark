@@ -28,8 +28,9 @@ namespace MassTransitBenchmark
                 }.Uri);
             Add<string>("keyname=", "The access key name", x => _keyName = x);
             Add<string>("key=", "The access key", x => _accessKey = x);
-            Add<int>("connections=", "The number of connections to configure for the service point manager",
-                x => DefaultConnections = x);
+            Add<int>("connections=", "The number of connections to configure for the service point manager", x => DefaultConnections = x);
+            Add<bool>("split:", "Split into two bus instances to leverage separate connections", x => Split = x);
+
 
             _tokenTimeToLive = TimeSpan.FromDays(1);
             _tokenScope = TokenScope.Namespace;
@@ -43,6 +44,7 @@ namespace MassTransitBenchmark
         }
 
         public int DefaultConnections { get; set; }
+        public bool Split { get; set; }
 
         public Uri ServiceUri { get; private set; }
 
@@ -64,6 +66,7 @@ namespace MassTransitBenchmark
             Console.WriteLine("Service URI: {0}", ServiceUri);
             Console.WriteLine("Key Name: {0}", _keyName);
             Console.WriteLine("Access Key: {0}", new string('*', (_accessKey ?? "default").Length));
+            Console.WriteLine("Split: {0}", Split);
             Console.WriteLine("Service Point Manager.Default Connections: {0}", DefaultConnections);
         }
     }
