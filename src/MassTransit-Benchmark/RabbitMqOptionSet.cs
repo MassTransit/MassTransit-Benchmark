@@ -24,6 +24,7 @@ namespace MassTransitBenchmark
             Add<TimeSpan>("heartbeat:", "Heartbeat (for RabbitMQ)", value => Heartbeat = value);
             Add<bool>("confirm:", "Publisher Confirmation", value => PublisherConfirmation = value);
             Add<bool>("batch:", "Batch Publish", EnableBatch);
+            Add<bool>("ssl:", "Use SSL", EnableSsl);
 
             Host = "localhost";
             Username = "guest";
@@ -51,13 +52,13 @@ namespace MassTransitBenchmark
         public string[] ClusterMembers => null;
 
         public string Host { get; set; }
-        public int Port { get; }
+        public int Port { get; set; }
         public string VirtualHost { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
         public TimeSpan Heartbeat { get; set; }
 
-        public bool Ssl { get; }
+        public bool Ssl { get; private set; }
 
         public SslProtocols SslProtocol { get; }
         public string SslServerName { get; }
@@ -110,6 +111,12 @@ namespace MassTransitBenchmark
                 SizeLimit = 200000,
                 Timeout = TimeSpan.FromMilliseconds(3)
             };
+        }
+
+        void EnableSsl(bool enabled)
+        {
+            Ssl = true;
+            Port = 5671;
         }
 
         public void ShowOptions()
