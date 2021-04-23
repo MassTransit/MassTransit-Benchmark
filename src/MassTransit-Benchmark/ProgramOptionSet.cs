@@ -23,7 +23,8 @@ namespace MassTransitBenchmark
             Mediator,
             InMemory,
             AmazonSqs,
-            ActiveMq
+            ActiveMq,
+            Grpc
         }
 
 
@@ -32,7 +33,7 @@ namespace MassTransitBenchmark
             Add<string>("v|verbose", "Verbose output", x => Verbose = x != null);
             Add<string>("?|help", "Display this help and exit", x => Help = x != null);
             Add<int>("threads:", "The minimum number of thread pool threads", value => Threads = value);
-            Add<TransportOptions>("t|transport:", "Transport (RabbitMQ, AzureServiceBus, Mediator, AmazonSqs)",
+            Add<TransportOptions>("t|transport:", "Transport (RabbitMQ, AzureServiceBus, Mediator, AmazonSqs, InMemory, Grpc)",
                 value => Transport = value);
             Add("rabbitmq", "Use RabbitMQ", x => Transport = TransportOptions.RabbitMq);
             Add("mediator", "Use Mediator", x => Transport = TransportOptions.Mediator);
@@ -40,6 +41,7 @@ namespace MassTransitBenchmark
             Add("sqs", "Use Amazon SQS", x => Transport = TransportOptions.AmazonSqs);
             Add("servicebus", "Use Azure Service Bus", x => Transport = TransportOptions.AzureServiceBus);
             Add("activemq", "Use ActiveMQ", x => Transport = TransportOptions.ActiveMq);
+            Add("grpc", "Use gRPC", x => Transport = TransportOptions.Grpc);
 
             Add<BenchmarkOptions>("run:", "Run benchmark (All, Latency, RPC)", value => Benchmark = value);
             Add("rpc", "Run the RPC benchmark", x => Benchmark = BenchmarkOptions.Rpc);

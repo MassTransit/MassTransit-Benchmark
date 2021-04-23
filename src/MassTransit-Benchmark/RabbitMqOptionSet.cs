@@ -4,6 +4,7 @@ namespace MassTransitBenchmark
     using System.Net.Security;
     using System.Security.Authentication;
     using System.Security.Cryptography.X509Certificates;
+    using MassTransit.Internals.Extensions;
     using MassTransit.RabbitMqTransport;
     using MassTransit.Transports;
     using NDesk.Options;
@@ -24,6 +25,8 @@ namespace MassTransitBenchmark
             Add<TimeSpan>("heartbeat:", "Heartbeat (for RabbitMQ)", value => Heartbeat = value);
             Add<bool>("confirm:", "Publisher Confirmation", value => PublisherConfirmation = value);
             Add<bool>("batch:", "Batch Publish", EnableBatch);
+            Add<int>("batch-limit:", "Batch message limit", value => BatchLimit = value);
+            Add<int>("batch-timeout:", "Batch Publish", value => BatchTimeout = value);
             Add<bool>("ssl:", "Use SSL", EnableSsl);
 
             Host = "localhost";
@@ -102,14 +105,17 @@ namespace MassTransitBenchmark
 
         public BatchSettings BatchSettings => _batchSettings;
 
+        public int BatchLimit { get; set; } = 100;
+        public int BatchTimeout { get; set; } = 1;
+
         void EnableBatch(bool enabled)
         {
             _batchSettings = new ConfigurationBatchSettings
             {
                 Enabled = enabled,
-                MessageLimit = 100,
+                MessageLimit = BatchLimit,
                 SizeLimit = 200000,
-                Timeout = TimeSpan.FromMilliseconds(3)
+                Timeout = TimeSpan.FromMilliseconds(BatchTimeout)
             };
         }
 
@@ -127,6 +133,8 @@ namespace MassTransitBenchmark
             Console.WriteLine("Password: {0}", new string('*', (Password ?? "default").Length));
             Console.WriteLine("Heartbeat: {0}", Heartbeat);
             Console.WriteLine("Publisher Confirmation: {0}", PublisherConfirmation);
+            Console.WriteLine("Batch: enabled={0}, limit={1}, timeout={2}", _batchSettings.Enabled, _batchSettings.MessageLimit,
+                _batchSettings.Timeout.ToFriendlyString());
         }
     }
 
