@@ -28,6 +28,7 @@ namespace MassTransitBenchmark
             Add<int>("batch-limit:", "Batch message limit", value => BatchLimit = value);
             Add<int>("batch-timeout:", "Batch Publish", value => BatchTimeout = value);
             Add<bool>("ssl:", "Use SSL", EnableSsl);
+            Add<bool>("split:", "Split into two bus instances to leverage separate connections", x => Split = x);
 
             Host = "localhost";
             Username = "guest";
@@ -60,6 +61,7 @@ namespace MassTransitBenchmark
         public string Username { get; set; }
         public string Password { get; set; }
         public TimeSpan Heartbeat { get; set; }
+        public bool Split { get; set; }
 
         public bool Ssl { get; private set; }
 
@@ -133,6 +135,7 @@ namespace MassTransitBenchmark
             Console.WriteLine("Password: {0}", new string('*', (Password ?? "default").Length));
             Console.WriteLine("Heartbeat: {0}", Heartbeat);
             Console.WriteLine("Publisher Confirmation: {0}", PublisherConfirmation);
+            Console.WriteLine("Split: {0}", Split);
             Console.WriteLine("Batch: enabled={0}, limit={1}, timeout={2}", _batchSettings.Enabled, _batchSettings.MessageLimit,
                 _batchSettings.Timeout.ToFriendlyString());
         }

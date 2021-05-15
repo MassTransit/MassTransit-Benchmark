@@ -43,6 +43,8 @@ namespace MassTransitBenchmark.Latency
 
                     _targetAddress = e.InputAddress;
                 });
+
+                x.PrefetchCount = _settings.PrefetchCount;
             });
 
             await _busControl.StartAsync();
