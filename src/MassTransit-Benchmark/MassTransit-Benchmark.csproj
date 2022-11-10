@@ -4,15 +4,15 @@
     <ServerGarbageCollection>true</ServerGarbageCollection>
     <AssemblyName>mtbench</AssemblyName>
     <RootNamespace>MassTransitBenchmark</RootNamespace>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="MassTransit.Grpc" Version="7.2.0-develop.82" />
-    <PackageReference Include="MassTransit.RabbitMQ" Version="7.2.0-develop.82" />
-    <PackageReference Include="MassTransit" Version="7.2.0-develop.82" />
-    <PackageReference Include="MassTransit.Azure.ServiceBus.Core" Version="7.2.0-develop.82" />
-    <PackageReference Include="MassTransit.AmazonSQS" Version="7.2.0-develop.82" />
-    <PackageReference Include="MassTransit.ActiveMQ" Version="7.2.0-develop.82" />
+    <PackageReference Include="MassTransit.Grpc" Version="7.2.1" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="7.2.1" />
+    <PackageReference Include="MassTransit" Version="7.2.1" />
+    <PackageReference Include="MassTransit.Azure.ServiceBus.Core" Version="7.2.1" />
+    <PackageReference Include="MassTransit.AmazonSQS" Version="7.2.1" />
+    <PackageReference Include="MassTransit.ActiveMQ" Version="7.2.1" />
   </ItemGroup>
 </Project>
